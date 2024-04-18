@@ -1,9 +1,13 @@
 .sidebar-container{
     width: 100%;
-    max-width: 1560px;
-    margin: 0 auto;
 }
 .sidebar-container .container{
+    max-width: 1560px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
     width: 15%;
