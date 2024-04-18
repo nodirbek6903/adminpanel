@@ -1,9 +1,10 @@
 .sidebar-container{
     width: 100%;
+    margin: 0 auto;
+    max-width: 1560px;
 }
 .sidebar-container .container{
-    max-width: 1560px;
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
