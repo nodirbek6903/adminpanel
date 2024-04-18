@@ -1,0 +1,52 @@
+.settings-container{
+    width: 100%;
+    margin-left: 17%;
+    margin-top: 20px;
+    overflow: hidden;
+}
+.settings-card{
+    display: flex;
+    background-color: #fff;
+    padding: 20px;
+    width: 50%;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+.settings-form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+.form-items{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.form-item{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.form-item label{
+    font-size: 1rem;
+}
+.form-item input{
+    padding: 10px;
+    border: none;
+    outline: none;
+    background-color: #eee;
+    border-radius: 5px;
+    width: 100%;
+}
+.form-button button{
+    padding: 10px 20px;
+    border: none;
+    outline: none;
+    background-color: #3498DB;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.form-button button:hover{
+    background-color: #2980B9;
+}

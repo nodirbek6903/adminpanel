@@ -3,12 +3,16 @@ import { HiMiniBars3BottomRight } from "react-icons/hi2";
 import { FiLogOut, FiSettings, FiUsers } from "react-icons/fi";
 import { GrLanguage } from "react-icons/gr"
 import { useState } from "react";
+import { Link } from "react-router-dom";
 const Navbar = () => {
     const [isOpen,setIsOpen] = useState(false)
 
     const toggleDropdown = () => {
         setIsOpen(!isOpen)
     }
+
+
+
   return (
     <div className="navbar-container">
       <div className="container">
@@ -36,7 +40,7 @@ const Navbar = () => {
               </div>
             )}
           </div>
-          <FiSettings className="icons" />
+          <Link to="/settings" style={{color:"#000"}}><FiSettings className="icons" /></Link>
         </div>
       </div>
     </div>
