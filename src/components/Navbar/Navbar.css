@@ -1,8 +1,9 @@
 .navbar-container {
   width: 100%;
+  margin: 0 auto;
+  max-width: 1920px;
 }
 .navbar-container .container {
-  max-width: 1920px;
   display: flex;
   width: 100%;
   justify-content: space-between;
@@ -10,7 +11,6 @@
   padding: 0 20px;
   height: 100px;
   box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
-  margin: 0 auto;
 }
 .container .nav-texts {
   width: 40%;
