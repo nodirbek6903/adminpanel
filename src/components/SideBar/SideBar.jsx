@@ -5,6 +5,7 @@ import { IoLocationSharp } from "react-icons/io5";
 import { FaCar } from "react-icons/fa";
 import { IoIosSettings } from "react-icons/io";
 import { FiLogOut } from "react-icons/fi";
+
 const SideBar = () => {
   return (
     <div className="sidebar-container">
@@ -16,6 +17,7 @@ const SideBar = () => {
         <div className="sidebar-items">
           <div className="sidebar-item">
             <FaHome className="sidebar-icon" />
+
             <h4>Dashboard</h4>
           </div>
           <div className="sidebar-item">
