@@ -9,9 +9,6 @@ const Navbar = () => {
     const toggleDropdown = () => {
         setIsOpen(!isOpen)
     }
-
-
-
   return (
     <div className="navbar-container">
       <div className="container">
