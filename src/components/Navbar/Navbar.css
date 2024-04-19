@@ -6,6 +6,7 @@
 .navbar-container .container {
   background-color:#fff;
   position: fixed;
+  top: 0;
   display: flex;
   width: 100%;
   justify-content: space-between;
