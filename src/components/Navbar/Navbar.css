@@ -45,6 +45,7 @@
 .dropdown {
   display: flex;
   top: 30px;
+
   flex-direction: column;
   position: absolute;
   background-color: #fff;
