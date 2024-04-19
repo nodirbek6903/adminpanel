@@ -3,7 +3,6 @@ import { HiMiniBars3BottomRight } from "react-icons/hi2";
 import { FiLogOut, FiSettings, FiUsers } from "react-icons/fi";
 import { GrLanguage } from "react-icons/gr"
 import { useState } from "react";
-import { Link } from "react-router-dom";
 const Navbar = () => {
     const [isOpen,setIsOpen] = useState(false)
 
@@ -40,7 +39,7 @@ const Navbar = () => {
               </div>
             )}
           </div>
-          <Link to="/settings" style={{color:"#000"}}><FiSettings className="icons" /></Link>
+          <FiSettings className="icons" />
         </div>
       </div>
     </div>
