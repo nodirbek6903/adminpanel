@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import "./Settings.css";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import { toast } from "react-toastify";
+import {Circles} from "react-loader-spinner"
 const Settings = () => {
   const [EN, setEN] = useState("");
   const [RU, setRU] = useState("");
@@ -12,6 +13,7 @@ const Settings = () => {
   const [editedNameRU, setEditedNameRU] = useState("");
   const [editedImages, setEditedImages] = useState([]);
   const [prevImage, setPrevImage] = useState("");
+  const [loading,setLoading] = useState(true)
 
   const imgUrl = "https://autoapi.dezinfeksiyatashkent.uz/api/uploads/images/";
 
@@ -85,6 +87,7 @@ const Settings = () => {
       if (response.ok) {
         const data = await response.json();
         setData(data?.data);
+        setLoading(false)
       } else {
         console.log("Ma'lumotlarni olib bo'lmadi");
       }
@@ -187,13 +190,14 @@ const Settings = () => {
     }
   };
 
-  if (!data) {
-    <div>Loading...</div>;
-  }
-
   return (
     <>
-      <div className="settings-container">
+      {
+        loading ? <div className="loading-container">
+          <Circles color="#00BFFF" size={100} />
+        </div> : (
+          <>
+          <div className="settings-container">
         <div className="settings-card">
           <form
             action=""
@@ -331,6 +335,9 @@ const Settings = () => {
           </div>
         </div>
       )}
+          </>
+        )
+      }
     </>
   );
 };
