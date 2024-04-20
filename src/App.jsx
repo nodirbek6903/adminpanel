@@ -5,9 +5,16 @@ import Navbar from "./components/Navbar/Navbar";
 import Settings from "./components/Settings/Settings";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import { useEffect } from "react";
 
 function App() {
   const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    if (!token) {
+      localStorage.removeItem("token");
+    }
+  },[token])
 
   return (
     <>
