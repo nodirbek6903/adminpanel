@@ -11,7 +11,8 @@ const Navbar = () => {
     setIsOpen(!isOpen);
     setLngOpen(false);
   };
-// language dropdown
+
+  // language dropdown
   const toggleLngDropdown = () => {
     setLngOpen(!lngOpen);
   };
@@ -44,21 +45,19 @@ const Navbar = () => {
                     <span>Logout</span>
                   </div>
                 </div>
-                {
-                  lngOpen && (
-                    <div className="lng-dropdown">
-                      <div className="lng-dropdown-items">
-                        <span>English</span>
-                      </div>
-                      <div className="lng-dropdown-items">
-                        <span>Russian</span>
-                      </div>
-                      <div className="lng-dropdown-items">
-                        <span>Uzbek</span>
-                      </div>
+                {lngOpen && (
+                  <div className="lng-dropdown">
+                    <div className="lng-dropdown-items">
+                      <span>English</span>
                     </div>
-                  )
-                }
+                    <div className="lng-dropdown-items">
+                      <span>Russian</span>
+                    </div>
+                    <div className="lng-dropdown-items">
+                      <span>Uzbek</span>
+                    </div>
+                  </div>
+                )}
               </>
             )}
           </div>
