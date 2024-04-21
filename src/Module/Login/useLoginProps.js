@@ -37,7 +37,8 @@ export const useLoginProps = () => {
       }
 
       const data = await response.json();
-      localStorage.setItem("token", data.data.tokens.accessToken.token);
+      localStorage.setItem("access_token", data.data.tokens.accessToken.token);
+
     } catch (error) {
       setError(error.message);
     }

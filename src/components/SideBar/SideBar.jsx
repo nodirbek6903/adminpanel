@@ -5,6 +5,18 @@ import { IoLocationSharp } from "react-icons/io5";
 import { FaCar } from "react-icons/fa";
 import { IoIosSettings } from "react-icons/io";
 import { FiLogOut } from "react-icons/fi";
+import { Link } from "react-router-dom";
+
+const sidebarItems = [
+  { icon: <FaHome className="sidebar-icon" />, title: 'Dashboard', path: '/' },
+  { icon: <MdBrandingWatermark className="sidebar-icon" />, title: 'Brands', path: '/brands' },
+  { icon: <MdBrandingWatermark className="sidebar-icon" />, title: 'Models', path: '/models' },
+  { icon: <IoLocationSharp className="sidebar-icon" />, title: 'Locations', path: '/locations' },
+  { icon: <MdOutlineLocationCity className="sidebar-icon" />, title: 'Cities', path: '/cities' },
+  { icon: <FaCar className="sidebar-icon" />, title: 'Cars', path: 'cars' },
+  { icon: <IoIosSettings className="sidebar-icon" />, title: 'Settings', path: '/settings' },
+  { icon: <FiLogOut className="sidebar-icon" />, title: 'Logout', path: '/logout' },
+];
 
 const SideBar = () => {
   return (
@@ -15,39 +27,13 @@ const SideBar = () => {
           <h4>Admin</h4>
         </div>
         <div className="sidebar-items">
-          <div className="sidebar-item">
-            <FaHome className="sidebar-icon" />
+        {sidebarItems.map((item, index) => (
+        <Link to={item.path} key={index} className="sidebar-item">
+          {item.icon}
+          <h4>{item.title}</h4>
+        </Link>
+      ))}
 
-            <h4>Dashboard</h4>
-          </div>
-          <div className="sidebar-item">
-            <MdBrandingWatermark className="sidebar-icon" />
-            <h4>Brands</h4>
-          </div>
-          <div className="sidebar-item">
-            <MdBrandingWatermark className="sidebar-icon" />
-            <h4>Models</h4>
-          </div>
-          <div className="sidebar-item">
-            <IoLocationSharp className="sidebar-icon" />
-            <h4>Locations</h4>
-          </div>
-          <div className="sidebar-item">
-            <MdOutlineLocationCity className="sidebar-icon" />
-            <h4>Cities</h4>
-          </div>
-          <div className="sidebar-item">
-            <FaCar className="sidebar-icon" />
-            <h4>Cars</h4>
-          </div>
-          <div className="sidebar-item">
-            <IoIosSettings className="sidebar-icon" />
-            <h4>Settings</h4>
-          </div>
-          <div className="sidebar-item">
-            <FiLogOut className="sidebar-icon" />
-            <h4>Logout</h4>
-          </div>
         </div>
       </div>
     </div>
