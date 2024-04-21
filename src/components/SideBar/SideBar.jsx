@@ -6,7 +6,21 @@ import { FaCar } from "react-icons/fa";
 import { IoIosSettings } from "react-icons/io";
 import { FiLogOut } from "react-icons/fi";
 import { Link } from "react-router-dom";
+<<<<<<< HEAD
 import { useState } from "react";
+=======
+
+const sidebarItems = [
+  { icon: <FaHome className="sidebar-icon" />, title: 'Dashboard', path: '/' },
+  { icon: <MdBrandingWatermark className="sidebar-icon" />, title: 'Brands', path: '/brands' },
+  { icon: <MdBrandingWatermark className="sidebar-icon" />, title: 'Models', path: '/models' },
+  { icon: <IoLocationSharp className="sidebar-icon" />, title: 'Locations', path: '/locations' },
+  { icon: <MdOutlineLocationCity className="sidebar-icon" />, title: 'Cities', path: '/cities' },
+  { icon: <FaCar className="sidebar-icon" />, title: 'Cars', path: 'cars' },
+  { icon: <IoIosSettings className="sidebar-icon" />, title: 'Settings', path: '/settings' },
+  { icon: <FiLogOut className="sidebar-icon" />, title: 'Logout', path: '/logout' },
+];
+>>>>>>> 902ddf2315bf07e0c3b7a86e1e47c5f6b663710f
 
 const SideBar = () => {
   const [activeItem, setActiveItem] = useState("");
@@ -27,6 +41,7 @@ const SideBar = () => {
           <h4>Admin</h4>
         </div>
         <div className="sidebar-items">
+<<<<<<< HEAD
           <Link
             className={`sidebar-item ${
               activeItem === "dashboard" ? "active" : ""
@@ -98,6 +113,15 @@ const SideBar = () => {
             <FiLogOut className="sidebar-icon" />
             <h4>Logout</h4>
           </Link>
+=======
+        {sidebarItems.map((item, index) => (
+        <Link to={item.path} key={index} className="sidebar-item">
+          {item.icon}
+          <h4>{item.title}</h4>
+        </Link>
+      ))}
+
+>>>>>>> 902ddf2315bf07e0c3b7a86e1e47c5f6b663710f
         </div>
       </div>
     </div>

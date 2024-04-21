@@ -119,6 +119,7 @@ tbody tr td button{
     display: flex;
     justify-content: center;
     align-items: center;
+    transform: translateX(10%) translateY(5%);
     height: 100vh;
 }
 

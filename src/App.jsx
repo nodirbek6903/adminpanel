@@ -1,24 +1,15 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import Cars from "./Module/Cars/cars";
+import Dashboard from "./Module/Dashboard/Dashboard";
 import { Login } from "./Module/Login/Login";
 import SideBar from "./components/SideBar/SideBar";
 import Navbar from "./components/Navbar/Navbar";
-import Settings from "./components/Settings/Settings";
-import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer } from "react-toastify";
-import { useEffect } from "react";
 
 function App() {
   const token = localStorage.getItem("token");
 
-  useEffect(() => {
-    if (!token) {
-      localStorage.removeItem("token");
-    }
-  },[token])
-
   return (
     <>
-    <ToastContainer />
       {!token ? (
         <Routes>
           <Route path="/login" element={<Login />} />
@@ -30,7 +21,6 @@ function App() {
           <Navbar />
           <Routes>
             <Route path="*" element={<Navigate to="/" />} />
-            <Route path="/settings" element={<Settings />} />
           </Routes>
         </>
       )}
