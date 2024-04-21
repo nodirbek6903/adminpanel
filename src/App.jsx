@@ -6,6 +6,7 @@ import { Login } from "./Module/Login/Login";
 import Layout from "./Module/layout";
 import AuthCheck from "./utils/AuthChek";
 import ProtectedRoute from "./utils/ProtectedRoute";
+import Settings from "./Module/Settings/Settings";
 
 const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ const router = createBrowserRouter([
         path: "cars",
         element: <Cars />,
       },
+      {
+        path: "settings",
+        element: <Settings />,
+      }
     ],
   },
 ]);
