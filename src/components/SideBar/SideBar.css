@@ -57,7 +57,10 @@
     width: 100%;
     padding: 10px 20px;
     text-decoration: none;
+<<<<<<< HEAD
     color: #000;
+=======
+>>>>>>> c6626ab22b9102db601553c5df36e471ec5b614d
 }
 .sidebar-item:hover{
     background-color: #b0aaaa;
