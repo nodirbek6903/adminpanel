@@ -6,6 +6,7 @@ import Settings from "./components/Settings/Settings";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import { useEffect } from "react";
+import Locations from "./components/Locations/Locations";
 
 function App() {
   const token = localStorage.getItem("token");
@@ -19,7 +20,7 @@ function App() {
   return (
     <>
     <ToastContainer />
-      {!token ? (
+      {token ? (
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="*" element={<Navigate to="/login" />} />
@@ -31,6 +32,7 @@ function App() {
           <Routes>
             <Route path="*" element={<Navigate to="/" />} />
             <Route path="/settings" element={<Settings />} />
+            <Route path="/locations" element={<Locations />} />
           </Routes>
         </>
       )}
