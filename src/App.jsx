@@ -20,7 +20,7 @@ function App() {
   return (
     <>
     <ToastContainer />
-      {token ? (
+      {!token ? (
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="*" element={<Navigate to="/login" />} />
