@@ -6,36 +6,37 @@ import Layout from "./Module/layout";
 import AuthCheck from "./utils/AuthChek";
 import ProtectedRoute from "./utils/ProtectedRoute";
 
-
 const router = createBrowserRouter([
   {
-    path:"/",
-    element:<AuthCheck>
-      <Login />
-    </AuthCheck>
+    path: "/",
+    element: (
+      <AuthCheck>
+        <Login />
+      </AuthCheck>
+    ),
   },
   {
-    path:"/home",
-    element:(<ProtectedRoute>
-      <Layout />
-    </ProtectedRoute>),
-    children:[
-        {
-          index:true,
-          element:<Dashboard />
-        },
-        {
-          path:"cars",
-          element:<Cars />
-        }
-    ]
-  }
-])
-
+    path: "/home",
+    element: (
+      <ProtectedRoute>
+        <Layout />
+      </ProtectedRoute>
+    ),
+    children: [
+      {
+        index: true,
+        element: <Dashboard />,
+      },
+      {
+        path: "cars",
+        element: <Cars />,
+      },
+    ],
+  },
+]);
 
 function App() {
-
-  return <RouterProvider router={router} />
+  return <RouterProvider router={router} />;
 }
 
 export default App;

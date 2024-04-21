@@ -55,6 +55,7 @@
     cursor: pointer;
     width: 100%;
     padding: 10px 20px;
+    text-decoration: none;
 }
 .sidebar-item:hover{
     background-color: #b0aaaa;
