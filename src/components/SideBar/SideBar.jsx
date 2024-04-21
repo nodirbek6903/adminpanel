@@ -6,16 +6,16 @@ import { FaCar } from "react-icons/fa";
 import { IoIosSettings } from "react-icons/io";
 import { FiLogOut } from "react-icons/fi";
 import { Link } from "react-router-dom";
+import { destroyToken } from "../../utils/token";
 
 const sidebarItems = [
   { icon: <FaHome className="sidebar-icon" />, title: 'Dashboard', path: '/' },
-  { icon: <MdBrandingWatermark className="sidebar-icon" />, title: 'Brands', path: '/brands' },
-  { icon: <MdBrandingWatermark className="sidebar-icon" />, title: 'Models', path: '/models' },
-  { icon: <IoLocationSharp className="sidebar-icon" />, title: 'Locations', path: '/locations' },
-  { icon: <MdOutlineLocationCity className="sidebar-icon" />, title: 'Cities', path: '/cities' },
+  { icon: <MdBrandingWatermark className="sidebar-icon" />, title: 'Brands', path: 'brands' },
+  { icon: <MdBrandingWatermark className="sidebar-icon" />, title: 'Models', path: 'models' },
+  { icon: <IoLocationSharp className="sidebar-icon" />, title: 'Locations', path: 'locations' },
+  { icon: <MdOutlineLocationCity className="sidebar-icon" />, title: 'Cities', path: 'cities' },
   { icon: <FaCar className="sidebar-icon" />, title: 'Cars', path: 'cars' },
-  { icon: <IoIosSettings className="sidebar-icon" />, title: 'Settings', path: '/settings' },
-  { icon: <FiLogOut className="sidebar-icon" />, title: 'Logout', path: '/logout' },
+  { icon: <IoIosSettings className="sidebar-icon" />, title: 'Settings', path: 'settings' },
 ];
 
 const SideBar = () => {
@@ -33,6 +33,10 @@ const SideBar = () => {
           <h4>{item.title}</h4>
         </Link>
       ))}
+        <Link to={"/"} className="sidebar-item" onClick={() => destroyToken()}>
+        <FiLogOut className="sidebar-icon" />
+          <h4>Logout</h4>
+        </Link>
 
         </div>
       </div>
