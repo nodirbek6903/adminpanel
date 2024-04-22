@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import "./Settings.css";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import { toast } from "react-toastify";
-import {Circles} from "react-loader-spinner"
+import { ToastContainer, toast } from "react-toastify";
+import { Circles } from "react-loader-spinner";
+import "react-toastify/dist/ReactToastify.css";
 const Settings = () => {
   const [EN, setEN] = useState("");
   const [RU, setRU] = useState("");
@@ -13,7 +14,7 @@ const Settings = () => {
   const [editedNameRU, setEditedNameRU] = useState("");
   const [editedImages, setEditedImages] = useState([]);
   const [prevImage, setPrevImage] = useState("");
-  const [loading,setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
 
   const imgUrl = "https://autoapi.dezinfeksiyatashkent.uz/api/uploads/images/";
 
@@ -42,7 +43,7 @@ const Settings = () => {
       images.forEach((image) => {
         formData.append("images", image);
       });
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("access_token");
       const response = await fetch(
         "https://autoapi.dezinfeksiyatashkent.uz/api/categories",
         {
@@ -74,7 +75,7 @@ const Settings = () => {
   // get qismi uchun
   const fetchData = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("access_token");
       const response = await fetch(
         "https://autoapi.dezinfeksiyatashkent.uz/api/categories",
         {
@@ -87,7 +88,7 @@ const Settings = () => {
       if (response.ok) {
         const data = await response.json();
         setData(data?.data);
-        setLoading(false)
+        setLoading(false);
       } else {
         console.log("Ma'lumotlarni olib bo'lmadi");
       }
@@ -100,7 +101,7 @@ const Settings = () => {
   const handleGetEditCategory = async (id) => {
     handleOpenModal();
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("access_token");
       const response = await fetch(
         `https://autoapi.dezinfeksiyatashkent.uz/api/categories/${id}`,
         {
@@ -116,7 +117,7 @@ const Settings = () => {
         setEditedNameEN(data?.data?.name_en);
         setEditedNameRU(data?.data?.name_ru);
         // images uchun
-        setPrevImage(imgUrl + data?.data?.image_src)
+        setPrevImage(imgUrl + data?.data?.image_src);
         // id ni localstorage ga saqlash
         localStorage.setItem("selectedId", id);
       } else {
@@ -126,22 +127,22 @@ const Settings = () => {
       console.error("error editing category", error);
     }
   };
-
+  // edit qismida PUT uchun
   const handleUploadCategory = async (e) => {
     e.preventDefault();
     try {
       const id = localStorage.getItem("selectedId");
-      const formData =  new FormData();
+      const formData = new FormData();
       formData.append("name_en", editedNameEN);
       formData.append("name_ru", editedNameRU);
-      if(editedImages.length > 0){
+      if (editedImages.length > 0) {
         editedImages.forEach((image) => {
           formData.append("images", image);
         });
-      }else{
-        formData.append("image_src", prevImage.replace(imgUrl, ""))
+      } else {
+        formData.append("image_src", prevImage.replace(imgUrl, ""));
       }
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("access_token");
       const response = await fetch(
         `https://autoapi.dezinfeksiyatashkent.uz/api/categories/${id}`,
         {
@@ -159,7 +160,7 @@ const Settings = () => {
         fetchData();
         handleOpenModal(false);
       } else {
-        toast.error("Kategoriyani yangilab bo‘lmadi", {
+        toast.error("Kategoriyani yangilab bo'lmadi", {
           autoClose: 2000,
         });
       }
@@ -171,7 +172,7 @@ const Settings = () => {
   //   delete uchun
   const handleDeleteCategory = async (id) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("access_token");
       await fetch(
         `https://autoapi.dezinfeksiyatashkent.uz/api/categories/${id}`,
         {
@@ -192,152 +193,153 @@ const Settings = () => {
 
   return (
     <>
-      {
-        loading ? <div className="loading-container">
+    <ToastContainer />
+      {loading ? (
+        <div className="loading-container">
           <Circles color="#00BFFF" size={100} />
-        </div> : (
-          <>
+        </div>
+      ) : (
+        <>
           <div className="settings-container">
-        <div className="settings-card">
-          <form
-            action=""
-            className="settings-form"
-            onSubmit={handleSubmitCategory}
-          >
-            <h2>Kategoriya yaratish</h2>
-            <div className="form-items">
-              <div className="form-item">
-                <label htmlFor="">Kategoriya nomi - EN</label>
-                <input
-                  type="text"
-                  value={EN}
-                  onChange={handleENChange}
-                  placeholder="Kategoriya nomi - EN"
-                  required
-                />
-              </div>
-              <div className="form-item">
-                <label htmlFor="">Kategoriya nomi - RU</label>
-                <input
-                  type="text"
-                  value={RU}
-                  onChange={handleRUChange}
-                  placeholder="Kategoriya nomi - RU"
-                  required
-                />
-              </div>
-              <div className="form-item">
-                <label htmlFor="">Upload Image</label>
-                <input
-                  type="file"
-                  onChange={(e) => setImages([...e.target.files])}
-                  required
-                />
-              </div>
-            </div>
-            <div className="form-button">
-              <button type="submit">Yaratish</button>
-            </div>
-          </form>
-        </div>
-        <div className="settings-table">
-          <table className="table-container">
-            <thead>
-              <tr>
-                <th>№</th>
-                <th>Kategoriya nomi - EN</th>
-                <th>Kategoriya nomi - RU</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.length > 0 ? (
-                data.map((item, index) => (
-                  <tr key={index}>
-                    <td>{index + 1}</td>
-                    <td>{item.name_en}</td>
-                    <td>{item.name_ru}</td>
-                    <td>
-                      <button
-                        className="edit-btn"
-                        onClick={() => handleGetEditCategory(item.id)}
-                      >
-                        <FaEdit /> Edit
-                      </button>
-                      <button
-                        className="delete-btn"
-                        onClick={() => handleDeleteCategory(item.id)}
-                      >
-                        <FaTrash /> Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))
-              ) : (
-                <tr>
-                  <td className="delete" colSpan="4">
-                    Data Not Found
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
-      {openModal && (
-        <div className="modal">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h2>Edit Category</h2>
-              <button onClick={handleOpenModal}>&times;</button>
-            </div>
-            <div className="modal-body">
+            <div className="settings-card">
               <form
                 action=""
-                className="modal-form"
-                onSubmit={handleUploadCategory}
+                className="settings-form"
+                onSubmit={handleSubmitCategory}
               >
-                <div className="form-item">
-                  <label htmlFor="">Kategoriya nomi - EN</label>
-                  <input
-                    type="text"
-                    value={editedNameEN}
-                    onChange={(e) => setEditedNameEN(e.target.value)}
-                    placeholder="Kategoriya nomi - EN"
-                    required
-                  />
-                </div>
-                <div className="form-item">
-                  <label htmlFor="">Kategoriya nomi - RU</label>
-                  <input
-                    type="text"
-                    value={editedNameRU}
-                    onChange={(e) => setEditedNameRU(e.target.value)}
-                    placeholder="Kategoriya nomi - RU"
-                    required
-                  />
-                </div>
-                <div className="form-item">
-                  <label htmlFor="">Upload Image</label>
-                  <input
-                    type="file"
-                    onChange={(e) => setEditedImages([...e.target.files])}
-                  />
-                </div>
-                <div className="prev-image">
-                  <img className="edit-images" src={prevImage} alt="" />
+                <h2>Kategoriya yaratish</h2>
+                <div className="form-items">
+                  <div className="form-item">
+                    <label htmlFor="">Kategoriya nomi - EN</label>
+                    <input
+                      type="text"
+                      value={EN}
+                      onChange={handleENChange}
+                      placeholder="Kategoriya nomi - EN"
+                      required
+                    />
+                  </div>
+                  <div className="form-item">
+                    <label htmlFor="">Kategoriya nomi - RU</label>
+                    <input
+                      type="text"
+                      value={RU}
+                      onChange={handleRUChange}
+                      placeholder="Kategoriya nomi - RU"
+                      required
+                    />
+                  </div>
+                  <div className="form-item">
+                    <label htmlFor="">Upload Image</label>
+                    <input
+                      type="file"
+                      onChange={(e) => setImages([...e.target.files])}
+                      required
+                    />
+                  </div>
                 </div>
                 <div className="form-button">
-                  <button type="submit">Upload</button>
+                  <button type="submit">Yaratish</button>
                 </div>
               </form>
             </div>
+            <div className="settings-table">
+              <table className="table-container">
+                <thead>
+                  <tr>
+                    <th>№</th>
+                    <th>Kategoriya nomi - EN</th>
+                    <th>Kategoriya nomi - RU</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.length > 0 ? (
+                    data.map((item, index) => (
+                      <tr key={index}>
+                        <td>{index + 1}</td>
+                        <td>{item.name_en}</td>
+                        <td>{item.name_ru}</td>
+                        <td>
+                          <button
+                            className="edit-btn"
+                            onClick={() => handleGetEditCategory(item.id)}
+                          >
+                            <FaEdit /> Edit
+                          </button>
+                          <button
+                            className="delete-btn"
+                            onClick={() => handleDeleteCategory(item.id)}
+                          >
+                            <FaTrash /> Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td className="delete" colSpan="4">
+                        Data Not Found
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
+          {openModal && (
+            <div className="modal">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h2>Edit Category</h2>
+                  <button onClick={handleOpenModal}>&times;</button>
+                </div>
+                <div className="modal-body">
+                  <form
+                    action=""
+                    className="modal-form"
+                    onSubmit={handleUploadCategory}
+                  >
+                    <div className="form-item">
+                      <label htmlFor="">Kategoriya nomi - EN</label>
+                      <input
+                        type="text"
+                        value={editedNameEN}
+                        onChange={(e) => setEditedNameEN(e.target.value)}
+                        placeholder="Kategoriya nomi - EN"
+                        required
+                      />
+                    </div>
+                    <div className="form-item">
+                      <label htmlFor="">Kategoriya nomi - RU</label>
+                      <input
+                        type="text"
+                        value={editedNameRU}
+                        onChange={(e) => setEditedNameRU(e.target.value)}
+                        placeholder="Kategoriya nomi - RU"
+                        required
+                      />
+                    </div>
+                    <div className="form-item">
+                      <label htmlFor="">Upload Image</label>
+                      <input
+                        type="file"
+                        onChange={(e) => setEditedImages([...e.target.files])}
+                      />
+                    </div>
+                    <div className="prev-image">
+                      <img className="edit-images" src={prevImage} alt="" />
+                    </div>
+                    <div className="form-button">
+                      <button type="submit">Upload</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          )}
+        </>
       )}
-          </>
-        )
-      }
     </>
   );
 };

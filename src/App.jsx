@@ -7,6 +7,7 @@ import Layout from "./Module/layout";
 import AuthCheck from "./utils/AuthChek";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import Settings from "./Module/Settings/Settings";
+import Cities from "./Module/Cities/Cities";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +37,10 @@ const router = createBrowserRouter([
       {
         path: "settings",
         element: <Settings />,
+      },
+      {
+        path: "cities",
+        element: <Cities />
       }
     ],
   },
