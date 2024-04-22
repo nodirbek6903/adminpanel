@@ -7,7 +7,6 @@ import InfoCars from "./info-cars";
 const TableCars = () => {
 const dispatch = useDispatch()
 const selectedOption = useSelector((cars) => cars.autozum.actioncars )
-console.log(selectedOption);
   const renderComponent = () => {
     if (selectedOption === "delete") return <CreateCars />;
     else  if (selectedOption === "info") return <InfoCars />
@@ -15,6 +14,7 @@ console.log(selectedOption);
     else if (selectedOption === "edit")  return <EditCars />; 
     return null;
   };
+
    
   return (
     <>
