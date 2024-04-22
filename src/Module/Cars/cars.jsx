@@ -1,8 +1,23 @@
+import { useDispatch } from "react-redux";
+import TableCars from "../../components/Cars/table-cars";
+import { actionCars } from "../../store/autozumadminSlice";
+import "./cars.css";
 
 const Cars = () => {
-  return (
-    <div>Cars</div>
-  )
-}
+  const dispatch = useDispatch();
 
-export default Cars
+  return (
+    <div>
+      <button
+        className="cars-btn"
+        onClick={() => dispatch(actionCars("create"))}
+      >
+        Create new cars
+      </button>
+
+      <TableCars />
+    </div>
+  );
+};
+
+export default Cars;
