@@ -1,16 +1,16 @@
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import AxiosRequest from "../axiosRequest";
-export const getcategories = async () => {
-  return await AxiosRequest("categories");
+ const getCities = async () => {
+  return await AxiosRequest("cities");
 };
 
-const GetCategories = () => {
-  const { data, isLoading } = useQuery(["get-categories"], () => getcategories(), {
+const GetCities = () => {
+  const { data, isLoading } = useQuery(["get-cities"], () => getCities(), {
     onError: (err) => {
       toast.error(err.response.data.message);
     },
   });
   return { data, isLoading };
 };
-export default GetCategories;
+export default GetCities;
