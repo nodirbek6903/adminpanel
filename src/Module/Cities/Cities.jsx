@@ -26,10 +26,18 @@ const Cities = () => {
 
   const handleOpenModal = () => {
     setOpenModal(!openModal);
+    setEditName("")
+    setEditSlug("")
+    setEditImage([])
+    setEditText("")
   };
   // add modal qismi
   const handleAddModal = () => {
     setAddModal(!addModal);
+    setName("")
+    setSlug("")
+    setImages([])
+    setText("")
   };
   // edit name
   const handleChangeName = (e) => {
@@ -43,7 +51,7 @@ const Cities = () => {
   const handleChangeText = (e) => {
     setEditText(e.target.value);
   };
-
+  //search qismi
   const handleSearchCities = (e) => {
     const text = e.target.value;
     setSearch(text);
@@ -207,16 +215,25 @@ const Cities = () => {
   const handleDeleteCities = async (id) => {
     try {
       const token = localStorage.getItem("access_token");
-      await fetch(`https://autoapi.dezinfeksiyatashkent.uz/api/cities/${id}`, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      fetchData();
-      toast.success("Malumot muvaffaqqiyatli o'chirildi!", {
-        autoClose: 2000,
-      });
+      const response = await fetch(
+        `https://autoapi.dezinfeksiyatashkent.uz/api/cities/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.status === 500) {
+        toast.error("Malumotni o'chirishda xatolik yuz berdi!", {
+          autoClose: 2000,
+        });
+      } else {
+        fetchData();
+        toast.success("Malumot muvaffaqqiyatli o'chirildi!", {
+          autoClose: 2000,
+        });
+      }
     } catch (error) {
       console.error("error deleting category", error);
     }

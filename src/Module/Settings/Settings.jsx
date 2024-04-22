@@ -173,7 +173,7 @@ const Settings = () => {
   const handleDeleteCategory = async (id) => {
     try {
       const token = localStorage.getItem("access_token");
-      await fetch(
+      const response = await fetch(
         `https://autoapi.dezinfeksiyatashkent.uz/api/categories/${id}`,
         {
           method: "DELETE",
@@ -182,10 +182,16 @@ const Settings = () => {
           },
         }
       );
-      fetchData();
-      toast.success("Malumot muvaffaqqiyatli o'chirildi!", {
-        autoClose: 2000,
-      });
+      if (response.status === 500) {
+        toast.error("Kategoriyani o'chirishda xatolik yuz berdi", {
+          autoClose: 2000,
+        });
+      } else {
+        fetchData();
+        toast.success("Malumot muvaffaqqiyatli o'chirildi!", {
+          autoClose: 2000,
+        });
+      }
     } catch (error) {
       console.error("error deleting category", error);
     }
@@ -193,7 +199,7 @@ const Settings = () => {
 
   return (
     <>
-    <ToastContainer />
+      <ToastContainer />
       {loading ? (
         <div className="loading-container">
           <Circles color="#00BFFF" size={100} />
@@ -250,6 +256,7 @@ const Settings = () => {
                     <th>№</th>
                     <th>Kategoriya nomi - EN</th>
                     <th>Kategoriya nomi - RU</th>
+                    <th>Images</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -260,6 +267,13 @@ const Settings = () => {
                         <td>{index + 1}</td>
                         <td>{item.name_en}</td>
                         <td>{item.name_ru}</td>
+                        <td>
+                          <img
+                            src={imgUrl + item.image_src}
+                            className="table-img"
+                            alt=""
+                          />
+                        </td>
                         <td>
                           <button
                             className="edit-btn"
