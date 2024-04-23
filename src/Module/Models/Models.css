@@ -93,18 +93,18 @@ button.edit__btn {
   background-color: #a10808 !important;
 }
 .bg {
-  width: 150vw;
-  height: 150vh;
-  position: absolute;
   top: 50%;
   left: 50%;
+  width: 150vw;
+  height: 150vh;
+  position: fixed;
   z-index: 10000 !important;
   background-color: #0000003a;
   transform: translate(-50%, -50%);
 }
 #edit-model-box {
   top: 50%;
-  left: 60%;
+  left: 55%;
   width: 60%;
   position: fixed;
   background-color: #fff;
