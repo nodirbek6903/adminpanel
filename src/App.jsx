@@ -8,6 +8,7 @@ import AuthCheck from "./utils/AuthChek";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import Settings from "./Module/Settings/Settings";
 import Cities from "./Module/Cities/Cities";
+import Models from "./Module/Models/Models";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: "cars",
         element: <Cars />,
+      },
+      {
+        path: "models",
+        element: <Models />,
       },
       {
         path: "settings",
