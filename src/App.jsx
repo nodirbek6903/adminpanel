@@ -2,13 +2,13 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Cars from "./Module/Cars/cars";
 import Dashboard from "./Module/Dashboard/Dashboard";
 import { Login } from "./Module/Login/Login";
-
 import Layout from "./Module/layout";
 import AuthCheck from "./utils/AuthChek";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import Settings from "./Module/Settings/Settings";
 import Cities from "./Module/Cities/Cities";
 import Models from "./Module/Models/Models";
+import { NotFoundError } from "./components/NotFound/NoyFound";
 
 const router = createBrowserRouter([
   {
@@ -45,9 +45,13 @@ const router = createBrowserRouter([
       },
       {
         path: "cities",
-        element: <Cities />
-      }
+        element: <Cities />,
+      },
     ],
+  },
+  {
+    path: "*",
+    element: <NotFoundError />,
   },
 ]);
 

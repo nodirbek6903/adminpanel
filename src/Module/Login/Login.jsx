@@ -44,7 +44,7 @@ export const Login = () => {
         <button className="login-btn" type="submit">
           Login
         </button>
-        {error && <p>{error}</p>}
+        {error && <p className="login-error">{error}</p>}
       </form>
     </div>
   );
