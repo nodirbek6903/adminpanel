@@ -79,6 +79,7 @@ tbody tr{
     width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 tbody tr td{
     width: 100%;
