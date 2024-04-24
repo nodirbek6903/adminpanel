@@ -8,6 +8,7 @@ import ProtectedRoute from "./utils/ProtectedRoute";
 import Settings from "./Module/Settings/Settings";
 import Cities from "./Module/Cities/Cities";
 import Models from "./Module/Models/Models";
+import Locations from "./Module/Locations/Locations"
 import { NotFoundError } from "./components/NotFound/NoyFound";
 
 const router = createBrowserRouter([
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: "models",
         element: <Models />,
+      },
+      {
+        path: "locations",
+        element: <Locations />,
       },
       {
         path: "settings",
