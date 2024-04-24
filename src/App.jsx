@@ -8,7 +8,7 @@ import ProtectedRoute from "./utils/ProtectedRoute";
 import Settings from "./Module/Settings/Settings";
 import Cities from "./Module/Cities/Cities";
 import Models from "./Module/Models/Models";
-import { NotFoundError } from "./components/NotFound/NoyFound";
+import { NotFoundError } from "./components/NotFound/NotFound";
 
 const router = createBrowserRouter([
   {
