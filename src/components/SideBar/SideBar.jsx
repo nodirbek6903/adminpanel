@@ -1,5 +1,5 @@
 import "./SideBar.css";
-import { FaHome, FaRegUserCircle } from "react-icons/fa";
+import { FaRegUserCircle } from "react-icons/fa";
 import { MdBrandingWatermark, MdOutlineLocationCity } from "react-icons/md";
 import { IoLocationSharp } from "react-icons/io5";
 import { FaCar } from "react-icons/fa";
@@ -9,7 +9,6 @@ import { Link } from "react-router-dom";
 import { destroyToken } from "../../utils/token";
 
 const sidebarItems = [
-  { icon: <FaHome className="sidebar-icon" />, title: 'Dashboard', path: '/' },
   { icon: <MdBrandingWatermark className="sidebar-icon" />, title: 'Brands', path: 'brands' },
   { icon: <MdBrandingWatermark className="sidebar-icon" />, title: 'Models', path: 'models' },
   { icon: <IoLocationSharp className="sidebar-icon" />, title: 'Locations', path: 'locations' },
