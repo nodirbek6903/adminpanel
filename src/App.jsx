@@ -8,7 +8,7 @@ import Settings from "./Module/Settings/Settings";
 import Cities from "./Module/Cities/Cities";
 import Models from "./Module/Models/Models";
 import { NotFoundError } from "./components/NotFound/NotFound";
-import Locations from './components/Locations/Locations';
+import Locations from './Module/Locations/Locations';
 
 const router = createBrowserRouter([
   {

@@ -44,7 +44,7 @@ const Locations = () => {
 
   const fetchData = async () => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("access_token");
       const response = await fetch(
         "https://autoapi.dezinfeksiyatashkent.uz/api/locations",
         {
@@ -69,7 +69,7 @@ const Locations = () => {
   const handleGetEditLocations = async (id) => {
     handleOpenModal();
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("access_token");
       const response = await fetch(
         `https://autoapi.dezinfeksiyatashkent.uz/api/locations/${id}`,
         {
@@ -109,7 +109,7 @@ const Locations = () => {
       images.forEach((image) => {
         formData.append("images", image);
       });
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("access_token");
       const response = await fetch(
         "https://autoapi.dezinfeksiyatashkent.uz/api/locations",
         {
@@ -159,7 +159,7 @@ const Locations = () => {
       } else {
         formData.append("image_src", formData.prevImage.replace(imgUrl, ""));
       }
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("access_token");
       const response = await fetch(
         `https://autoapi.dezinfeksiyatashkent.uz/api/locations/${id}`,
         {
@@ -188,7 +188,7 @@ const Locations = () => {
 
   const handleDeleteLocations = async (id) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("access_token");
       await fetch(
         `https://autoapi.dezinfeksiyatashkent.uz/api/locations/${id}`,
         {
