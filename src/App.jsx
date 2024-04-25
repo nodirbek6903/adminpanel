@@ -1,6 +1,5 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Cars from "./Module/Cars/cars";
-import Dashboard from "./Module/Dashboard/Dashboard";
 import { Login } from "./Module/Login/Login";
 import Layout from "./Module/layout";
 import AuthCheck from "./utils/AuthChek";
@@ -28,10 +27,6 @@ const router = createBrowserRouter([
       </ProtectedRoute>
     ),
     children: [
-      {
-        index: true,
-        element: <Dashboard />,
-      },
       {
         path: "cars",
         element: <Cars />,
