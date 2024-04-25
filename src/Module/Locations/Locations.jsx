@@ -1,47 +1,107 @@
 /* eslint-disable react/no-unescaped-entities */
-import { useEffect, useState } from "react";
+import { FaSearch } from "react-icons/fa";
 import "./Locations.css";
-import { FaEdit, FaTrash } from "react-icons/fa";
-import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
 import { Circles } from "react-loader-spinner";
-
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const Locations = () => {
-  const [formData, setFormData] = useState({
-    EN: "",
-    RU: "",
-    TextEN: "",
-    TextRU: "",
-    editedNameEN: "",
-    editedNameRU: "",
-    editedTextEN: "",
-    editedTextRU: "",
-    prevImage: "",
-  });
-
   const [data, setData] = useState([]);
-  const [images, setImages] = useState([]);
-  const [editedImages, setEditedImages] = useState([]);
-  const [openModal, setOpenModal] = useState(false);
   const [loading, setLoading] = useState(true);
-
-  const imgUrl = "https://autoapi.dezinfeksiyatashkent.uz/api/uploads/images/";
-
-  const handleOpenModal = () => {
-    setOpenModal(!openModal);
-  };
-
-  const handleInputChange = (e, key) => {
-    const { value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [key]: value,
-    }));
-  };
+  const [openModal, setOpenModal] = useState(false);
+  const [addModal, setAddModal] = useState(false);
+  const [name, setName] = useState("");
+  const [slug, setSlug] = useState("");
+  const [images, setImages] = useState([]);
+  const [text, setText] = useState("");
+  const [editName, setEditName] = useState("");
+  const [editSlug, setEditSlug] = useState("");
+  const [editImage, setEditImage] = useState([]);
+  const [editText, setEditText] = useState("");
+  const [prevImage, setPrevImage] = useState("");
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     fetchData();
   }, []);
 
+  const handleOpenModal = () => {
+    setOpenModal(!openModal);
+    setEditName("")
+    setEditSlug("")
+    setEditImage([])
+    setEditText("")
+  };
+  // add modal 
+  const handleAddModal = () => {
+    setAddModal(!addModal);
+    setName("")
+    setSlug("")
+    setImages([])
+    setText("")
+  };
+
+  const handleChange = (e, setState) => {
+    setState(e.target.value);
+  };
+  //search 
+  const handleSearchLocations = (e) => {
+    const text = e.target.value;
+    setSearch(text);
+    if (text.length > 0) {
+      const searchLocations = data.filter((item) =>
+        item.name.toLowerCase().includes(text.toLowerCase())
+      );
+      setData(searchLocations);
+    } else {
+      fetchData();
+    }
+  };
+
+  // post 
+  const handleSubmitLocations = async (e) => {
+    e.preventDefault();
+    try {
+      const formData = await new FormData();
+      formData.append("name", name);
+      formData.append("slug", slug);
+      formData.append("text", text);
+      images.forEach((img) => {
+        formData.append("images", img);
+      });
+      const token = localStorage.getItem("access_token");
+      const response = await fetch(
+        "https://autoapi.dezinfeksiyatashkent.uz/api/locations",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
+      );
+      if (response.ok) {
+        toast.success("Malumot muvaffaqqiyatli qo'shildi!", {
+          autoClose: 2000,
+        });
+        fetchData();
+        setName("");
+        setSlug("");
+        setImages([]);
+        setText("");
+        setAddModal(false);
+      } else {
+        console.log("Malumot qo'shilmadi");
+        toast.error("Malumot qo'shilmadi!", {
+          autoClose: 2000,
+        });
+      }
+    } catch (error) {
+      console.error("error adding category", error);
+    }
+  };
+
+  //GET  
   const fetchData = async () => {
     try {
       const token = localStorage.getItem("access_token");
@@ -66,6 +126,9 @@ const Locations = () => {
     }
   };
 
+  const imgUrl = "https://autoapi.dezinfeksiyatashkent.uz/api/uploads/images/";
+
+  // edit =>get 
   const handleGetEditLocations = async (id) => {
     handleOpenModal();
     try {
@@ -81,83 +144,36 @@ const Locations = () => {
       );
       if (response.ok) {
         const data = await response.json();
-        setFormData({
-          ...formData,
-          editedNameEN: data?.data?.name_en,
-          editedNameRU: data?.data?.name_ru,
-          editedTextEN: data?.data?.text_en,
-          editedTextRU: data?.data?.text_ru,
-          prevImage: imgUrl + data?.data?.image_src,
-        });
+        // names
+        setEditName(data?.data?.name);
+        setEditSlug(data?.data?.slug);
+        setEditText(data?.data?.text);
+        // images 
+        setPrevImage(imgUrl + data?.data?.image_src);
         localStorage.setItem("selectedId", id);
       } else {
         console.log("Ma'lumotlarni olib bo'lmadi");
       }
     } catch (error) {
-      console.error("error editing locations", error);
+      console.error("error editing category", error);
     }
   };
 
-  const handleSubmitLocations = async (e) => {
-    e.preventDefault();
-    try {
-      const formData = new FormData();
-      formData.append("name_en", formData.EN);
-      formData.append("name_ru", formData.RU);
-      formData.append("text_en", formData.TextEN);
-      formData.append("text_ru", formData.TextRU);
-      images.forEach((image) => {
-        formData.append("images", image);
-      });
-      const token = localStorage.getItem("access_token");
-      const response = await fetch(
-        "https://autoapi.dezinfeksiyatashkent.uz/api/locations",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: formData,
-        }
-      );
-      if (response.ok) {
-        toast.success("Locations muvaffaqiyatli qo'shildi", {
-          autoClose: 2000,
-        });
-        fetchData();
-        setFormData({
-          ...formData,
-          EN: "",
-          RU: "",
-          TextEN: "",
-          TextRU: "",
-        });
-        setImages([]);
-      } else {
-        toast.error("Locations qo'shib bo'lmadi", {
-          autoClose: 2000,
-        });
-      }
-    } catch (error) {
-      console.error("error creating locations", error);
-    }
-  };
-
+  // edit => PUT 
   const handleUploadLocations = async (e) => {
     e.preventDefault();
     try {
       const id = localStorage.getItem("selectedId");
       const formData = new FormData();
-      formData.append("name_en", formData.editedNameEN);
-      formData.append("name_ru", formData.editedNameRU);
-      formData.append("text_en", formData.editedTextEN);
-      formData.append("text_ru", formData.editedTextRU);
-      if (editedImages.length > 0) {
-        editedImages.forEach((image) => {
+      formData.append("name", editName);
+      formData.append("slug", editSlug);
+      formData.append("text", editText);
+      if (editImage.length > 0) {
+        editImage.forEach((image) => {
           formData.append("images", image);
         });
       } else {
-        formData.append("image_src", formData.prevImage.replace(imgUrl, ""));
+        formData.append("image_src", prevImage.replace(imgUrl, ""));
       }
       const token = localStorage.getItem("access_token");
       const response = await fetch(
@@ -171,25 +187,27 @@ const Locations = () => {
         }
       );
       if (response.ok) {
-        toast.success("Malumot muvaffaqqiyatli o'zgartirildi!", {
+        fetchData();
+        toast.success("Malumot muvaffaqqiyatli yangilandi!", {
           autoClose: 2000,
         });
-        fetchData();
         handleOpenModal(false);
       } else {
-        toast.error("Locationsni yangilab bo‘lmadi", {
+        console.log("Ma'lumotlar yangilanmadi");
+        toast.error("Malumotlar yangilanmadi!", {
           autoClose: 2000,
         });
       }
     } catch (error) {
-      console.error("Locationsni yangilashda xato", error);
+      console.error("error updating category", error);
     }
   };
 
+  // delete  
   const handleDeleteLocations = async (id) => {
     try {
       const token = localStorage.getItem("access_token");
-      await fetch(
+      const response = await fetch(
         `https://autoapi.dezinfeksiyatashkent.uz/api/locations/${id}`,
         {
           method: "DELETE",
@@ -198,17 +216,24 @@ const Locations = () => {
           },
         }
       );
-      fetchData();
-      toast.success("Malumot muvaffaqqiyatli o'chirildi!", {
-        autoClose: 2000,
-      });
+      if (response.status === 500) {
+        toast.error("Malumotni o'chirishda xatolik yuz berdi!", {
+          autoClose: 2000,
+        });
+      } else {
+        fetchData();
+        toast.success("Malumot muvaffaqqiyatli o'chirildi!", {
+          autoClose: 2000,
+        });
+      }
     } catch (error) {
-      console.error("error deleting locations", error);
+      console.error("error deleting category", error);
     }
   };
 
   return (
     <>
+      <ToastContainer />
       {loading ? (
         <div className="loading-container">
           <Circles color="#00BFFF" size={100} />
@@ -216,121 +241,130 @@ const Locations = () => {
       ) : (
         <>
           <div className="locations-container">
-            <div className="locations-card">
-              <form
-                action=""
-                className="locations-form"
-                onSubmit={handleSubmitLocations}
-              >
-                <h2>Location qo'shish</h2>
-                <div className="form-items">
-                  <div className="form-item">
-                    <label htmlFor="">Locations name - EN</label>
-                    <input
-                      type="text"
-                      value={formData.EN}
-                      onChange={(e) => handleInputChange(e, "EN")}
-                      placeholder="Locations name - EN"
-                      required
-                    />
-                  </div>
-                  <div className="form-item">
-                    <label htmlFor="">Location name - RU</label>
-                    <input
-                      type="text"
-                      value={formData.RU}
-                      onChange={(e) => handleInputChange(e, "RU")}
-                      placeholder="Locations name - RU"
-                      required
-                    />
-                  </div>
-                  <div className="form-item">
-                    <label htmlFor="">Location text - EN</label>
-                    <input
-                      type="text"
-                      value={formData.TextEN}
-                      onChange={(e) => handleInputChange(e, "TextEN")}
-                      placeholder="Locations text - EN"
-                      required
-                    />
-                  </div>
-                  <div className="form-item">
-                    <label htmlFor="">Location text - RU</label>
-                    <input
-                      type="text"
-                      value={formData.TextRU}
-                      onChange={(e) => handleInputChange(e, "TextRU")}
-                      placeholder="Location text - RU"
-                      required
-                    />
-                  </div>
-                  <div className="form-item">
-                    <label htmlFor="">Upload Image</label>
-                    <input
-                      type="file"
-                      onChange={(e) => setImages([...e.target.files])}
-                      required
-                    />
-                  </div>
-                </div>
-                <div className="form-button">
-                  <button type="submit">Saqlash</button>
-                </div>
-              </form>
-            </div>
             <div className="locations-table">
-              <table className="table-container">
+              <div className="search-add_buttons">
+                <div className="search-container">
+                  <FaSearch className="search-icon" />
+                  <input
+                    type="text"
+                    value={search}
+                    onChange={handleSearchLocations}
+                    placeholder="Search Locations"
+                  />
+                </div>
+                <a className="add_btn" onClick={handleAddModal}>
+                  Add Location
+                </a>
+              </div>
+              <table className="table">
                 <thead>
                   <tr>
                     <th>№</th>
-                    <th>Location name - EN</th>
-                    <th>Location name - RU</th>
-                    <th>Location text - EN</th>
-                    <th>Location text - RU</th>
+                    <th>Nomi</th>
+                    <th>Slug</th>
+                    <th>Image</th>
+                    <th>Information</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {data.length > 0 ? (
-                    data.map((item, index) => (
-                      <tr key={index}>
-                        <td>{index + 1}</td>
-                        <td>{item.name_en}</td>
-                        <td>{item.name_ru}</td>
-                        <td>{item.text_en}</td>
-                        <td>{item.text_ru}</td>
-                        <td>
-                          <button
-                            className="edit-btn"
-                            onClick={() => handleGetEditLocations(item.id)}
-                          >
-                            <FaEdit /> Edit
-                          </button>
-                          <button
-                            className="delete-btn"
-                            onClick={() => handleDeleteLocations(item.id)}
-                          >
-                            <FaTrash /> Delete
-                          </button>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td className="delete" colSpan="4">
-                        Data Not Found
+                  {data.map((item, index) => (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td>{item.name}</td>
+                      <td>{item.slug}</td>
+                      <td>
+                        <img
+                          src={imgUrl + item.image_src}
+                          className="table-img"
+                          alt="rasm"
+                        />
+                      </td>
+                      <td>{item.text}</td>
+                      <td>
+                        <button
+                          className="edit-btn"
+                          onClick={() => handleGetEditLocations(item.id)}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          className="delete-btn"
+                          onClick={() => handleDeleteLocations(item.id)}
+                        >
+                          Delete
+                        </button>
                       </td>
                     </tr>
-                  )}
+                  ))}
                 </tbody>
               </table>
             </div>
           </div>
+          {addModal && (
+            <div className="modal">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h2>Add Location</h2>
+                  <button onClick={handleAddModal}>&times;</button>
+                </div>
+                <div className="modal-body">
+                  <form
+                    action=""
+                    className="modal-form"
+                    onSubmit={handleSubmitLocations}
+                  >
+                    <div className="form-item">
+                      <label htmlFor="">Locations Name</label>
+                      <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Locations Name"
+                        required
+                      />
+                    </div>
+                    <div className="form-item">
+                      <label htmlFor="">Locations Slug</label>
+                      <input
+                        type="text"
+                        value={slug}
+                        onChange={(e) => setSlug(e.target.value)}
+                        placeholder="Locations Slug"
+                        required
+                      />
+                    </div>
+                    <div className="form-item">
+                      <label htmlFor="">Locations Text</label>
+                      <input
+                        type="text"
+                        value={text}
+                        onChange={(e) => setText(e.target.value)}
+                        placeholder="Locations Text"
+                        required
+                      />
+                    </div>
+                    <div className="form-item">
+                      <label htmlFor="">Upload Image</label>
+                      <input
+                        type="file"
+                        onChange={(e) => setImages([...e.target.files])}
+                        required
+                      />
+                    </div>
+                    <div className="form-button">
+                      <button type="submit">Submit</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          )}
           {openModal && (
             <div className="modal">
               <div className="modal-content">
                 <div className="modal-header">
-                  <h2>Edit Location</h2>
+                  <h2>Edit Locations</h2>
                   <button onClick={handleOpenModal}>&times;</button>
                 </div>
                 <div className="modal-body">
@@ -340,50 +374,32 @@ const Locations = () => {
                     onSubmit={handleUploadLocations}
                   >
                     <div className="form-item">
-                      <label htmlFor="">Locations name - EN</label>
+                      <label htmlFor="">Locations Name</label>
                       <input
                         type="text"
-                        value={formData.editedNameEN}
-                        onChange={(e) =>
-                          handleInputChange(e, "editedNameEN")
-                        }
-                        placeholder="Location name - EN"
+                        value={editName}
+                        onChange={(e) => handleChange(e, setEditName)}
+                        placeholder="Locations Name"
                         required
                       />
                     </div>
                     <div className="form-item">
-                      <label htmlFor="">Locations name - RU</label>
+                      <label htmlFor="">Locations Slug</label>
                       <input
                         type="text"
-                        value={formData.editedNameRU}
-                        onChange={(e) =>
-                          handleInputChange(e, "editedNameRU")
-                        }
-                        placeholder="Location name - RU"
+                        value={editSlug}
+                        onChange={(e) => handleChange(e, setEditSlug)}
+                        placeholder="Locations Slug"
                         required
                       />
                     </div>
                     <div className="form-item">
-                      <label htmlFor="">Location text - EN</label>
+                      <label htmlFor="">Locations Text</label>
                       <input
                         type="text"
-                        value={formData.editedTextEN}
-                        onChange={(e) =>
-                          handleInputChange(e, "editedTextEN")
-                        }
-                        placeholder="Location text - EN"
-                        required
-                      />
-                    </div>
-                    <div className="form-item">
-                      <label htmlFor="">Location text - RU</label>
-                      <input
-                        type="text"
-                        value={formData.editedTextRU}
-                        onChange={(e) =>
-                          handleInputChange(e, "editedTextRU")
-                        }
-                        placeholder="Location text - RU"
+                        value={editText}
+                        onChange={(e) => handleChange(e, setEditText)}
+                        placeholder="Locations Text"
                         required
                       />
                     </div>
@@ -391,20 +407,14 @@ const Locations = () => {
                       <label htmlFor="">Upload Image</label>
                       <input
                         type="file"
-                        onChange={(e) =>
-                          setEditedImages([...e.target.files])
-                        }
+                        onChange={(e) => setEditImage([...e.target.files])}
                       />
                     </div>
                     <div className="prev-image">
-                      <img
-                        className="edit-images"
-                        src={formData.prevImage}
-                        alt=""
-                      />
+                      <img className="edit-images" src={prevImage} alt="" />
                     </div>
                     <div className="form-button">
-                      <button type="submit">Upload</button>
+                      <button type="submit">Submit</button>
                     </div>
                   </form>
                 </div>
