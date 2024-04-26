@@ -20,11 +20,11 @@ const queryClient = new QueryClient({
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <Provider store={store}>
     <QueryClientProvider client={queryClient}>
+    <Provider store={store}>
       <ToastContainer autoClose={1500} position="top-center" />
       <App />
-    </QueryClientProvider>
     </Provider>
+    </QueryClientProvider>
   </React.StrictMode>
 );

@@ -88,7 +88,6 @@ const autozumadmin = createSlice({
       state.cars[name].name = value;
     },
     setCategory(state,action){
-      console.log(action.payload);
       state.categories = action.payload
     },
     setBrand(state,action){

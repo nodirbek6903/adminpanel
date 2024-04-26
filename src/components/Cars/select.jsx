@@ -26,12 +26,12 @@ const Select = (props) => {
   return (
     <div style={{ display: "flex", flexDirection: "column", rowGap: "10px" }}>
       <label htmlFor="">{name}</label>
-      <select className="create-select" onChange={handleChange}>
-        <option selected disabled key={name} value={name}>
+      <select className="create-select" required onChange={handleChange}>
+        <option key={name} value="">
           Select {name}
         </option>
-        {options.map((option, index) => (
-          <option key={index} value={option.id}>
+        {options?.map((option, index) => (
+          <option aria-required key={index} value={option.id}>
             {option.title}
           </option>
         ))}
