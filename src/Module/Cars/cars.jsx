@@ -7,7 +7,7 @@ const Cars = () => {
   const dispatch = useDispatch();
 
   return (
-    <div>
+    <div className="table-cars">
       <button
         className="cars-btn"
         onClick={() => dispatch(actionCars("create"))}

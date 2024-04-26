@@ -1,3 +1,8 @@
+.table-cars{
+  width: 100%;
+  margin-top: 100px;
+  z-index: -9;
+}
 .cars-btn {
   background-color: white;
   border: 1px solid black;
@@ -140,7 +145,7 @@ tr:nth-child(even) {
   background-color: #ffffff;
   margin-top: -150px;
   position: relative;
-  z-index: 9999;
+  /* z-index: 9999; */
 }
 
 .create-cars-header{
