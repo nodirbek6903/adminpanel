@@ -7,10 +7,12 @@ export const postCar = async (data) => {
   return await AxiosPostRequest(data,"cars");
 };
 
-const PostCars = () => {
+const PostCars = (props) => {
+  // console.log(props.refetch);
   const dispatch = useDispatch()
   const { mutate, isLoading } = useMutation(["post-cars"], (data) => postCar(data), {
     onSuccess:() =>{
+      // props?.refetch()
      toast.success("Succsesfuly add cars")
      dispatch(actionCars(""))
     },

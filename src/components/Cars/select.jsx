@@ -2,8 +2,9 @@ import PropTypes from "prop-types";
 import { useDispatch } from "react-redux"; 
 import "../../Module/Cars/cars.css";
 import { setBrand, setCategory, setCity, setLocatsia, setModel } from "../../store/autozumadminSlice";
+import { Select } from "@chakra-ui/react";
 
-const Select = (props) => {
+const SelectComponent = (props) => {
   const { options, name, actionType } = props;
 
   const dispatch = useDispatch(); 
@@ -26,7 +27,7 @@ const Select = (props) => {
   return (
     <div style={{ display: "flex", flexDirection: "column", rowGap: "10px" }}>
       <label htmlFor="">{name}</label>
-      <select className="create-select" required onChange={handleChange}>
+      <Select className="create-select" required onChange={handleChange}>
         <option key={name} value="">
           Select {name}
         </option>
@@ -35,15 +36,15 @@ const Select = (props) => {
             {option.title}
           </option>
         ))}
-      </select>
+      </Select>
     </div>
   );
 };
 
-Select.propTypes = {
+SelectComponent.propTypes = {
   options: PropTypes.array.isRequired,
   name: PropTypes.string.isRequired,
   actionType: PropTypes.string.isRequired, // Добавляем пропс actionType
 };
 
-export default Select;
+export default SelectComponent;
