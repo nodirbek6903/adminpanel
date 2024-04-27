@@ -4,7 +4,7 @@ import { ToastContainer } from "react-toastify";
 import { useState } from "react";
 
 const Brands = () => {
-  const [data, setData] = useState([]);
+  // const [data, setData] = useState([]);
   const [openAddModal, setOpenAddModal] = useState("");
 
   const handleAddModal = () => {
@@ -39,7 +39,7 @@ const Brands = () => {
                 </tr>
               </thead>
               <tbody>
-                {data.map((element, index) => (
+                {/* {data.map((element, index) => (
                   <>
                     <tr key={index}>
                       <td>{element.name}</td>
@@ -52,7 +52,7 @@ const Brands = () => {
                       </td>
                     </tr>
                   </>
-                ))}
+                ))} */}
               </tbody>
             </table>
           </div>

@@ -7,7 +7,7 @@ const Layout = () => {
     <>
      <SideBar />
      <Navbar />
-     <main style={{marginLeft:"242px",marginTop:"40px"}}>
+     <main  style={{margin:"20px 24px 0 242px",  marginTop:"40px",minHeight:"78vh",backgroundColor:'white', border:"1px solid black", borderRadius:"15px",padding:"20px"}}>
      <Outlet />
      </main>
     </>

@@ -36,8 +36,8 @@
 
 .login-icon {
   position: absolute;
-  padding: 10px 10px 10px 7px;
-  right: 1px;
+  top: 20px;
+  right: 10px;
   cursor: pointer;
 }
 
@@ -50,4 +50,9 @@
   padding: 10px 0;
   border: none;
   cursor: pointer;
+}
+
+.login-error {
+  margin-top: 20px;
+  color: red;
 }

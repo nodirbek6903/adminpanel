@@ -20,7 +20,7 @@ const Navbar = () => {
     <div className="navbar-container">
       <div className="container">
         <div className="nav-texts">
-          <h1>Dashboard</h1>
+          <h1>Profile</h1>
           <span>Home | Profile</span>
         </div>
         <div className="nav-icons">

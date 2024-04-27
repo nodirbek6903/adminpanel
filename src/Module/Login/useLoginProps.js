@@ -31,14 +31,13 @@ export const useLoginProps = () => {
       );
 
       if (!response.ok) {
-        throw new Error("Sign-in failed");
+        throw new Error("tizimga kirishda xatolik yuz berdi");
       } else {
         window.location.href = "/";
       }
 
       const data = await response.json();
       localStorage.setItem("access_token", data.data.tokens.accessToken.token);
-
     } catch (error) {
       setError(error.message);
     }
