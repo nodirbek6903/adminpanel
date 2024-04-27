@@ -8,6 +8,7 @@ import AuthCheck from "./utils/AuthChek";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import Settings from "./Module/Settings/Settings";
 import Cities from "./Module/Cities/Cities";
+import Brands from "./Module/Brands/Brands";
 
 const router = createBrowserRouter([
   {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
         element: <Dashboard />,
       },
       {
+        path: "brands",
+        element: <Brands />,
+      },
+      {
         path: "cars",
         element: <Cars />,
       },
@@ -40,8 +45,8 @@ const router = createBrowserRouter([
       },
       {
         path: "cities",
-        element: <Cities />
-      }
+        element: <Cities />,
+      },
     ],
   },
 ]);
