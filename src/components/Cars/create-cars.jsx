@@ -1,5 +1,5 @@
 import "../../Module/Cars/cars.css";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { IoIosAdd } from "react-icons/io";
 import { RiArrowGoBackFill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
@@ -21,19 +21,21 @@ const CreateCars = (props) => {
   const { data: model, isLoading: modelLoading } = GetModel();
   const { data: locations, isLoading: locationsLoading } = GetLocations();
   const { data: cities, isLoading: citiesLoading } = GetCities();
-  const { mutate, isLoading: isLoadingCreateCars } = PostCars(props);
-
+  
   const cars = useSelector((cars) => cars.autozum.cars);
   const category_id = useSelector((cars) => cars.autozum.categories);
   const brand_id = useSelector((cars) => cars.autozum.brand);
   const model_id = useSelector((cars) => cars.autozum.model);
   const location_id = useSelector((cars) => cars.autozum.locatsiya);
   const city_id = useSelector((cars) => cars.autozum.city);
-
+  
   const [images, setImages] = useState([]);
   const [imagesCars, setImagesCar] = useState([]);
   const [cover, setCover] = useState(null);
   const [inclusive, setInclusive] = useState(false);
+  const formRef = useRef(null);
+  
+  const { mutate, isLoading: isLoadingCreateCars } = PostCars({props,cars});
 
   const updateCategoryKey = categories?.data.map((item) => {
     const { name_ru, ...rest } = item;
@@ -86,174 +88,168 @@ const CreateCars = (props) => {
     );
     formData.append("cover", cover);
     mutate(formData);
+    formRef.current.reset();
   };
-  {
-    isLoadingCreateCars && (
-      <div className="lds-ripple">
-        <div></div>
-        <div></div>
-      </div>
-    );
-  }
 
   return (
     <div className="create-cars-contetnt">
-      {isLoadingCreateCars ? (
-        <div className="loader-container">
-          <div className="loader"></div>
-        </div>
-      ) : (
-        <>
-          <main className="create-cars-header">
-            <h1>Car qo`shish</h1>
-            
-            <Button
-            colorScheme="teal" variant="outline"
-              style={{ display: "flex", alignItems: "center", gap: "8px" }}
-              onClick={() => dispatch(actionCars(""))}
-            >
-              <RiArrowGoBackFill /> Orqaga qaytish
-            </Button>
-          </main>
-          <form onSubmit={(e) => handleCklick(e)}>
-            <div className="create-body-cars">
-              {categoryLoading ? (
-                <Skeleton height="40px" mt={35} rounded={8} />
-              ) : (
-                <Select
-                  options={updateCategoryKey}
-                  name="Categories"
-                  actionType="setCategory"
-                />
-              )}
-              {isLoading ? (
-                <Skeleton height="40px" mt={35} rounded={8} />
-              ) : (
-                <Select
-                  options={data?.data}
-                  name="Brand"
-                  actionType="setBrand"
-                />
-              )}
-              {modelLoading ? (
-                <Skeleton height="40px" mt={35} rounded={8} />
-              ) : (
-                <Select
-                  options={updateModelsKey}
-                  name="Model"
-                  actionType="setModel"
-                />
-              )}
-              {locationsLoading ? (
-                <Skeleton height="40px" mt={35} rounded={8} />
-              ) : (
-                <Select
-                  options={updateLocationsKey}
-                  name="Locatsiya"
-                  actionType="setLocatsia"
-                />
-              )}
-              {citiesLoading ? (
-                <Skeleton height="40px" mt={35} rounded={8} />
-              ) : (
-                <SelectComponent
-                  options={updateCitiesKey}
-                  name="Cities"
-                  actionType="setCity"
-                />
-              )}
+      <main className="create-cars-header">
+        <h1>Car qo`shish</h1>
 
-              {Object.entries(cars).map((car, id) => {
-                return (
-                  <div
-                    key={id}
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      rowGap: "10px",
-                    }}
-                  >
-                    <label htmlFor={Object.keys(car)[0]}>
-                      {Object.values(car)[1].value}
-                    </label>
-                    <Input
-                      required
-                      id={Object.keys(car)[0]}
-                      value={Object.values(car)[1].name}
-                      onChange={(e) => {
-                        dispatch(
-                          handlehangeCars({
-                            name: Object.values(car)[0],
-                            value: e.target.value,
-                          })
-                        );
-                      }}
-                      size="md"
-                    />
-                  </div>
-                );
-              })}
+        <Button
+          colorScheme="teal"
+          variant="outline"
+          style={{ display: "flex", alignItems: "center", gap: "8px" }}
+          onClick={() => dispatch(actionCars(""))}
+        >
+          <RiArrowGoBackFill /> Orqaga qaytish
+        </Button>
+      </main>
+      <form
+        ref={formRef}
+        onSubmit={(e) => handleCklick(e)}
+        style={{ marginBottom: "15px" }}
+      >
+        <div className="create-body-cars">
+          {categoryLoading ? (
+            <Skeleton height="40px" mt={35} rounded={8} />
+          ) : (
+            <Select
+              options={updateCategoryKey}
+              name="Categories"
+              actionType="setCategory"
+            />
+          )}
+          {isLoading ? (
+            <Skeleton height="40px" mt={35} rounded={8} />
+          ) : (
+            <Select options={data?.data} name="Brand" actionType="setBrand" />
+          )}
+          {modelLoading ? (
+            <Skeleton height="40px" mt={35} rounded={8} />
+          ) : (
+            <Select
+              options={updateModelsKey}
+              name="Model"
+              actionType="setModel"
+            />
+          )}
+          {locationsLoading ? (
+            <Skeleton height="40px" mt={35} rounded={8} />
+          ) : (
+            <Select
+              options={updateLocationsKey}
+              name="Locatsiya"
+              actionType="setLocatsia"
+            />
+          )}
+          {citiesLoading ? (
+            <Skeleton height="40px" mt={35} rounded={8} />
+          ) : (
+            <SelectComponent
+              options={updateCitiesKey}
+              name="Cities"
+              actionType="setCity"
+            />
+          )}
+
+          {Object.entries(cars).map((car, id) => {
+            return (
               <div
+                key={id}
                 style={{
                   display: "flex",
                   flexDirection: "column",
                   rowGap: "10px",
                 }}
               >
-                <label htmlFor="machinas">Mashina rasmlarini yuklang</label>
+                <label htmlFor={Object.keys(car)[0]}>
+                  {Object.values(car)[1].value}
+                </label>
                 <Input
-                  style={{ padding: "5px 10px" }}
                   required
-                  multiple
-                  onChange={(e) => setImagesCar(e.target.files[0])}
-                  type="file"
-                />
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  rowGap: "10px",
-                }}
-              >
-                <label htmlFor="asosi">Asosi rasmni yuklang</label>
-                <Input
-                  style={{ padding: "5px 10px" }}
-                  multiple
-                  onChange={(e) => setImages(e.target.files)}
-                  type="file"
-                />
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  rowGap: "10px",
-                }}
-              >
-                <label htmlFor="asosi">Asosi rasmni yuklang</label>
-                <Input
-                  style={{ padding: "5px 10px" }}
-                  onChange={(e) => setCover(e.target.files[0])}
-                  type="file"
-                />
-              </div>
-              <Stack>
-                <span>Inclusive</span>
-                <Switch
-                  value={inclusive}
-                  onChange={(e) => setInclusive(e.target.checked)}
+                  id={Object.keys(car)[0]}
+                  value={Object.values(car)[1].name}
+                  onChange={(e) => {
+                    dispatch(
+                      handlehangeCars({
+                        name: Object.values(car)[0],
+                        value: e.target.value,
+                      })
+                    );
+                  }}
                   size="md"
                 />
-              </Stack>
-            </div>
-            <Button type="submit" mt={5} colorScheme="teal" variant="outline">
-              <IoIosAdd size={32} />{" "}
-              <span style={{ fontSize: "20px" }}>Yaratish</span>
-            </Button>
-          </form>
-        </>
-      )}
+              </div>
+            );
+          })}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              rowGap: "10px",
+            }}
+          >
+            <label htmlFor="machinas">Mashina rasmlarini yuklang</label>
+            <Input
+              style={{ padding: "5px 10px" }}
+              required
+              multiple
+              onChange={(e) => setImagesCar(e.target.files[0])}
+              type="file"
+            />
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              rowGap: "10px",
+            }}
+          >
+            <label htmlFor="asosi">Asosi rasmni yuklang</label>
+            <Input
+              style={{ padding: "5px 10px" }}
+              multiple
+              onChange={(e) => setImages(e.target.files)}
+              type="file"
+            />
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              rowGap: "10px",
+            }}
+          >
+            <label htmlFor="asosi">Asosi rasmni yuklang</label>
+            <Input
+              style={{ padding: "5px 10px" }}
+              onChange={(e) => setCover(e.target.files[0])}
+              type="file"
+            />
+          </div>
+          <Stack>
+            <span>Inclusive</span>
+            <Switch
+              value={inclusive}
+              onChange={(e) => setInclusive(e.target.checked)}
+              size="md"
+            />
+          </Stack>
+        </div>
+
+        <Button
+          isLoading={isLoadingCreateCars}
+          loadingText="Yaratish"
+          type="submit"
+          mt={5}
+          colorScheme="teal"
+          variant="outline"
+        >
+          <IoIosAdd size={32} />{" "}
+          <span style={{ fontSize: "20px" }}>Yaratish</span>
+        </Button>
+      </form>
     </div>
   );
 };

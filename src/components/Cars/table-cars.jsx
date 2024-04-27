@@ -9,18 +9,17 @@ import {
   Thead,
   Tr,
 } from "@chakra-ui/react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { actionCars } from "../../store/autozumadminSlice";
+import GetBrands from "../../api/brand/brands";
+import GetCars from "../../api/cars/get-cars.api";
+import GetCategories from "../../api/category/category";
+import GetLocations from "../../api/lcoations/locations";
+import GetModel from "../../api/model/model";
+import { actionCars, setCarsObj, setEditCars } from "../../store/autozumadminSlice";
 import CreateCars from "./create-cars";
 import { DeleteComponent } from "./delete-cars";
 import EditCars from "./edit-cars";
-import InfoCars from "./info-cars";
-import GetCars from "../../api/cars/get-cars.api";
-import GetBrands from "../../api/brand/brands";
-import GetModel from "../../api/model/model";
-import GetCategories from "../../api/category/category";
-import GetLocations from "../../api/lcoations/locations";
-import { useState } from "react";
 
 const TableCars = () => {
   const [id, setId] = useState();
@@ -37,10 +36,10 @@ const TableCars = () => {
   const renderComponent = () => {
     if (selectedOption === "delete")
       return <DeleteComponent id={id} refetch={refetch} />;
-    else if (selectedOption === "info") return <InfoCars />;
     else if (selectedOption === "create")
       return <CreateCars refetch={refetch} />;
-    else if (selectedOption === "edit") return <EditCars />;
+    else if (selectedOption === "edit")
+      return <EditCars id={id} refetch={refetch} />;
     return null;
   };
 
@@ -105,12 +104,11 @@ const TableCars = () => {
                         placeholder="Action"
                         value={selectedOption}
                         onChange={(e) => {
-                          dispatch(actionCars(e.target.value), setId(car.id));
+                          dispatch(actionCars(e.target.value), setId(car.id)),dispatch(setCarsObj(car),dispatch(setEditCars(car)))
                         }}
                       >
                         <option value="delete"> Delete</option>
                         <option value="edit">Edit</option>
-                        <option value="info">Info</option>
                       </Select>
                     </Td>
                   </Tr>

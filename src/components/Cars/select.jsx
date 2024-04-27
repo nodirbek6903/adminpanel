@@ -27,8 +27,8 @@ const SelectComponent = (props) => {
   return (
     <div style={{ display: "flex", flexDirection: "column", rowGap: "10px" }}>
       <label htmlFor="">{name}</label>
-      <Select className="create-select" required onChange={handleChange}>
-        <option key={name} value="">
+      <Select required onChange={handleChange}>
+        <option  value="">
           Select {name}
         </option>
         {options?.map((option, index) => (

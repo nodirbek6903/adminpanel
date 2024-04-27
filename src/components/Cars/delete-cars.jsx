@@ -30,7 +30,7 @@ export function DeleteComponent(id) {
     setOverlay(<OverlayTwo />), onOpen();
   }, []);
 
-const {mutate} = DeleteCars(id,onClose)
+const {mutate,isLoading} = DeleteCars(id,onClose)
   return (
     <>
       <Modal
@@ -46,7 +46,7 @@ const {mutate} = DeleteCars(id,onClose)
           <ModalCloseButton />
 
           <ModalFooter flex={2} gap={5}>
-            <Button onClick={() => mutate(id.id)}>Yes</Button>
+            <Button onClick={() => mutate(id.id)} isLoading={isLoading} loadingText='Deleted'>Yes</Button>
             <Button  colorScheme="red"
               onClick={() => {
                 onClose(), dispatch(actionCars(""));
