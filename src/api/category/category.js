@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import { toast } from "react-toastify";
 import AxiosRequest from "../axiosRequest";
-export const getcategories = async () => {
+ const getcategories = async () => {
   return await AxiosRequest("categories");
 };
 

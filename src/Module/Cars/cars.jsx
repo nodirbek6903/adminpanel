@@ -2,18 +2,19 @@ import { useDispatch } from "react-redux";
 import TableCars from "../../components/Cars/table-cars";
 import { actionCars } from "../../store/autozumadminSlice";
 import "./cars.css";
+import { Button } from "@chakra-ui/react";
 
 const Cars = () => {
   const dispatch = useDispatch();
 
   return (
-    <div className="table-cars">
-      <button
-        className="cars-btn"
+    <div style={{position:"relative"}}>
+      <Button
+            colorScheme="teal" variant="outline"
         onClick={() => dispatch(actionCars("create"))}
       >
         Create new cars
-      </button>
+      </Button>
 
       <TableCars />
     </div>
