@@ -13,8 +13,9 @@ const Models = () => {
     [editBrandId, setEditBrandId] = useState(''),
     [loading, setLoading] = useState(true),
     [modelName, setModelName] = useState(''),
+    [isOpenCreateModal, setIsOpenCreateModal] = useState(false),
     [openEditModal, setOpenEditModal] = useState(false),
-    [brandValue, setBrandValue] = useState('Brendni tanlang'),
+    [brandValue, setBrandValue] = useState('Choose brand'),
     [editBrandValue, setEditBrandValue] = useState(''),
     [editModelName, setEditModelName] = useState('');
 
@@ -33,7 +34,7 @@ const Models = () => {
         setLoading(false);
         setBrandData(jsonData?.data);
       } else {
-        console.log("Ma'lumotlarni olib bo'lmadi");
+        console.log("Data could not be fetched");
       }
     } catch (error) {
       console.log("error fetching data", error);
@@ -55,7 +56,7 @@ const Models = () => {
         setLoading(false);
         setModelData(jsonData?.data);
       } else {
-        console.log("Ma'lumotlarni olib bo'lmadi");
+        console.log("Data could not be fetched");
       }
     } catch (error) {
       console.log("error fetching data", error);
@@ -75,7 +76,7 @@ const Models = () => {
       createFormData.append("brand_id", brandId);
       createFormData.append("name", modelName);
       const token = localStorage.getItem("access_token");
-      const response = await fetch("https://autoapi.dezinfeksiyatashkent.uz/api/models/", {
+      const response = await fetch("https://autoapi.dezinfeksiyatashkent.uz/api/models", {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -83,14 +84,15 @@ const Models = () => {
         body: createFormData
       })
       if (response.ok) {
-        toast.success("Kategoriya muvaffaqiyatli yaratildi", {
+        toast.success("Model has been created successfully", {
           autoClose: 2000,
         });
-        setModelName("");
-        setBrandValue("Brendni tanlang");
         getModels();
+        setIsOpenCreateModal(false);
+        setModelName("");
+        setBrandValue("Choose brand");
       } else {
-        toast.error("Model yaratib bo'lmadi", {
+        toast.error("Could not create Model", {
           autoClose: 2000,
         });
       }
@@ -123,28 +125,14 @@ const Models = () => {
     })
   }
 
-  // for get edit
-  const modelEditHandler = async (itemId) => {
+  // for get edit from models data
+  const modelEditHandler = (modelId) => {
     setOpenEditModal(true);
-    try {
-      const token = localStorage.getItem("access_token");
-      const response = await fetch(`https://autoapi.dezinfeksiyatashkent.uz/api/models/${itemId}/`, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        }
-      });
-      if (response.ok) {
-        const jsonData = await response.json();
-        setEditBrandValue(jsonData?.data?.brand_title);
-        setEditModelName(jsonData?.data?.name);
-        localStorage.setItem("selectedId", itemId);
-      } else {
-        console.log("Ma'lumotlarni olib bo'lmadi");
-      }
-    } catch (error) {
-      console.log("error fetching data", error);
-    }
+    const filterEditModel = modelData.filter(item => item?.id === modelId);
+    setEditBrandValue(filterEditModel[0]?.brand_title);
+    setEditModelName(filterEditModel[0]?.name);
+    setEditBrandId(filterEditModel[0]?.brand_id);
+    localStorage.setItem("selectedId", modelId);
   }
 
   // for put 
@@ -165,28 +153,27 @@ const Models = () => {
       })
       if (response.ok) {
         setOpenEditModal(false);
-        setEditBrandValue("");
-        setEditModelName("");
         getModels();
-        toast.success("Malumot muvaffaqqiyatli o'zgartirildi!", {
+        getBrands();
+        toast.success("Data has been changed successfully!", {
           autoClose: 2000,
         });
       } else {
-        toast.error("Kategoriyani yangilab bo‘lmadi", {
+        toast.error("Data could not be changed", {
           autoClose: 2000,
         });
       }
     } catch (error) {
-      console.error("Kategoriyani yangilashda xato", error);
+      console.error("Modelni yangilashda xato", error);
     }
   }
 
   // for delete
-  const modelDeleteHandler = async (itemId) => {
-    if (confirm("Haqiqatan o'chirishni xohlaysizmi?")) {
+  const modelDeleteHandler = async (modelId) => {
+    if (confirm("Are you sure?")) {
       try {
         const token = localStorage.getItem("access_token");
-        const response = await fetch(`https://autoapi.dezinfeksiyatashkent.uz/api/models/${itemId}/`, {
+        const response = await fetch(`https://autoapi.dezinfeksiyatashkent.uz/api/models/${modelId}/`, {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${token}`
@@ -194,11 +181,14 @@ const Models = () => {
         });
         if (response.ok) {
           getModels();
-          toast.success("Malumot muvaffaqqiyatli o'chirildi!", {
+          toast.success("Model has been deleted successfully!", {
             autoClose: 2000,
           });
         } else {
           console.log("Ma'lumotlarni olib bo'lmadi");
+          toast.error("This model is used in the Cars", {
+            autoClose: 2000,
+          });
         }
       } catch (error) {
         console.log("error fetching data", error);
@@ -216,35 +206,42 @@ const Models = () => {
         : (
           <div className="models__section">
             <ToastContainer />
-            <div className="create__models__box">
-              <form action="#" onSubmit={createModel} className="create__models__form">
-                <h2>Model yaratish</h2>
-                <div className="inputs__grid">
-                  <label htmlFor="modelName">
-                    Model nomi: <br />
-                    <input type="text" name="modelName" required id="modelName" onChange={modelNameHandler} value={modelName} placeholder="Model nomi..." />
-                  </label>
-                  <label htmlFor="model-brand">
-                    Brend: <br />
-                    <select name="model-brand" id="model-brand" onChange={selectBrandHandler} value={brandValue}>
-                      <option>{brandValue}</option>
-                      {brandData.map((item, index) => {
-                        return  <option key={index}>{item?.title}</option>
-                      })}
-                    </select>
-                  </label>
-                  <button type="submit" className="submit__btn">Yaratish</button>
+            <button type="button" className="submit__btn create__btn" onClick={() => setIsOpenCreateModal(true)}>Create +</button>
+            {isOpenCreateModal && (
+              <>
+                <div className="create__models__box">
+                  <form action="#" onSubmit={createModel} className="create__models__form">
+                    <h2>Create model</h2>
+                    <div className="inputs__grid">
+                      <label htmlFor="modelName">
+                        Model name: <br />
+                        <input type="text" name="modelName" required id="modelName" onChange={modelNameHandler} value={modelName} placeholder="Model name..." />
+                      </label>
+                      <label htmlFor="model-brand">
+                        Brand: <br />
+                        <select name="model-brand" id="model-brand" onChange={selectBrandHandler} value={brandValue}>
+                          <option>{brandValue}</option>
+                          {brandData.map((item, index) => {
+                            return  <option key={index}>{item?.title}</option>
+                          })}
+                        </select>
+                      </label>
+                      <button type="submit" className="submit__btn">Add</button>
+                    </div>
+                  </form>
+                  <button className="removeEditModelBtn" onClick={() => setIsOpenCreateModal(false)}><BiX /></button>
                 </div>
-              </form>
-            </div>
+                <div className="bg"></div>
+              </>
+            )}
 
             <div className="models__table__box">
               <table className="models__table">
                 <thead>
                   <tr>
                     <th>№</th>
-                    <th>Model nomi</th>
-                    <th>Brand nomi</th>
+                    <th>Model name</th>
+                    <th>Brand name</th>
                     <th>Actions</th>
                   </tr>
                 </thead>
@@ -274,7 +271,7 @@ const Models = () => {
                   ) : (
                     <tr>
                       <td className="delete" colSpan="4">
-                        Data Not Found
+                        Data not found
                       </td>
                     </tr>
                   )}
@@ -285,14 +282,14 @@ const Models = () => {
               <>
                 <div id="edit-model-box" className="create__models__box">
                   <form action="#" onSubmit={putToApiHandler} className="create__models__form">
-                    <h2>Model tahrirlash</h2>
+                    <h2>Edit Model</h2>
                     <div className="inputs__grid">
                       <label htmlFor="editModelName">
-                        Model nomi: <br />
-                        <input type="text" name="editModelName" required id="editModelName" onChange={editModelNameHandler} value={editModelName} placeholder="Model nomi..." />
+                        Model name: <br />
+                        <input type="text" name="editModelName" required id="editModelName" onChange={editModelNameHandler} value={editModelName} placeholder="Model name..." />
                       </label>
                       <label htmlFor="edit-brand">
-                        Brend: <br />
+                        Brand: <br />
                         <select name="edit-brand" id="edit-brand" onChange={selectEditBrandHandler} value={editBrandValue}>
                           <option>{editBrandValue}</option>
                           {brandData.map((item, index) => {
@@ -300,7 +297,7 @@ const Models = () => {
                           })}
                         </select>
                       </label>
-                      <button type="submit" className="submit__btn">Tahrirlash</button>
+                      <button type="submit" className="submit__btn">Upload</button>
                     </div>
                   </form>
                   <button className="removeEditModelBtn" onClick={() => setOpenEditModal(false)}><BiX /></button>
