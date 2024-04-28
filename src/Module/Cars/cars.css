@@ -1,25 +1,3 @@
-/* .table-cars{
-  width: 100%;
-  margin-top: 100px;
-  z-index: -9;
-}
-.cars-btn {
-  background-color: white;
-  border: 1px solid black;
-  padding: 10px 15px;
-  border-radius: 10px;
-  color: black;
-  font-weight: 500;
-  cursor: pointer;
-  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  -webkit-transition: width 0.35s ease-in-out;
-  transition: width 0.35s ease-in-out;
-}
-.cars-btn:focus {
-  border: 2px solid green;
-} */
-
-
 .create-cars-contetnt{
   width: 100%;
   min-height: 80vh;
