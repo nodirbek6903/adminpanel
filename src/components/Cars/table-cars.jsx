@@ -51,13 +51,13 @@ const TableCars = () => {
           <TableCaption>Imperial to metric conversion factors</TableCaption>
           <Thead>
             <Tr>
-              <Th>№</Th>
-              <Th>Rang</Th>
-              <Th>Brand</Th>
-              <Th>Model</Th>
-              <Th>Categoriya</Th>
-              <Th>Lokatsiya</Th>
-              <Th>Action</Th>
+              <Th color={"white"}>№</Th>
+              <Th color={"white"}>Rang</Th>
+              <Th color={"white"}>Brand</Th>
+              <Th color={"white"}>Model</Th>
+              <Th color={"white"}>Categoriya</Th>
+              <Th color={"white"}>Lokatsiya</Th>
+              <Th color={"white"}>Action</Th>
             </Tr>
           </Thead>
           <Tbody>

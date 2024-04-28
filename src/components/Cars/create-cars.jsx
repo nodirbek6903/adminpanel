@@ -97,6 +97,7 @@ const CreateCars = (props) => {
         <h1>Car qo`shish</h1>
 
         <Button
+        isDisabled={isLoading}
           colorScheme="teal"
           variant="outline"
           style={{ display: "flex", alignItems: "center", gap: "8px" }}
