@@ -1,35 +1,28 @@
 import {
   Button,
-  Input,
   Stack,
   Switch
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { IoIosAdd } from "react-icons/io";
 import { RiArrowGoBackFill } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
 import "../../Module/Cars/cars.css";
-import PostCars from "../../api/cars/post-cars.api";
+import EditCarsFn from "../../api/cars/edit-cars.api";
 import { actionCars } from "../../store/autozumadminSlice";
 import EditSelect from "./editSelect";
 
 const EditCars = (props) => {
-  
   const dispatch = useDispatch();
-  const { mutate, isLoading: isLoadingCreateCars } = PostCars(props);
-  const cars = useSelector((cars) => cars.autozum.cars);
   const carsObj = useSelector((cars) => cars.autozum.carsobj);
+  const { mutate, isLoading: isLoadingCreateCars } = EditCarsFn(props,carsObj.id);
+  const editCars = useSelector((cars) => cars.autozum.editCars);
   const category_id = useSelector((cars) => cars.autozum.categories);
   const brand_id = useSelector((cars) => cars.autozum.brand);
   const model_id = useSelector((cars) => cars.autozum.model);
   const location_id = useSelector((cars) => cars.autozum.locatsiya);
   const city_id = useSelector((cars) => cars.autozum.city);
-  
-
-  const [images, setImages] = useState([]);
-  const [imagesCars, setImagesCar] = useState([]);
-  const [cover, setCover] = useState(null);
   const [inclusive, setInclusive] = useState(false);
+
 
   const handleCklick = (e) => {
     e.preventDefault();
@@ -38,30 +31,24 @@ const EditCars = (props) => {
     formData.append("category_id", category_id);
     formData.append("model_id", model_id);
     formData.append("city_id", city_id);
-    formData.append("color", cars.color.name);
-    formData.append("year", cars.year.name);
-    formData.append("seconds", cars.seconds.name);
-    formData.append("max_speed", cars.speed.name);
-    formData.append("max_people", cars.people.name);
-    formData.append("transmission", cars.transmission.name);
-    formData.append("motor", cars.motor.name);
-    formData.append("drive_side", cars.drive_side.name);
-    formData.append("petrol", cars.oyls.name);
-    formData.append("limitperday", cars.limitperday.name);
-    formData.append("deposit", cars.deposit.name);
-    formData.append("premium_protection", cars.premium_pro_price.name);
-    formData.append("price_in_aed", cars.price_aed.name);
-    formData.append("price_in_usd", cars.price_usd.name);
-    formData.append("price_in_aed_sale", cars.price_aed_otd.name);
-    formData.append("price_in_usd_sale", cars.price_usd_otd.name);
+    formData.append("color", editCars.color.name);
+    formData.append("year", editCars.year.name);
+    formData.append("seconds", editCars.seconds.name);
+    formData.append("max_speed", editCars.speed.name);
+    formData.append("max_people", editCars.people.name);
+    formData.append("transmission", editCars.transmission.name);
+    formData.append("motor", editCars.motor.name);
+    formData.append("drive_side", editCars.drive_side.name);
+    formData.append("petrol", editCars.oyls.name);
+    formData.append("limitperday", editCars.limitperday.name);
+    formData.append("deposit", editCars.deposit.name);
+    formData.append("premium_protection", editCars.premium_pro_price.name);
+    formData.append("price_in_aed", editCars.price_aed.name);
+    formData.append("price_in_usd", editCars.price_usd.name);
+    formData.append("price_in_aed_sale", editCars.price_aed_otd.name);
+    formData.append("price_in_usd_sale", editCars.price_usd_otd.name);
     formData.append("location_id", location_id);
     formData.append("inclusive", inclusive);
-    if (!images) return;
-    Object.entries(images).forEach((el) => formData.append("images", el[1]));
-    Object.entries(imagesCars).forEach((el) =>
-      formData.append("images", el[1])
-    );
-    formData.append("cover", cover);
     mutate(formData);
   };
   return (
@@ -83,51 +70,6 @@ const EditCars = (props) => {
         <EditSelect />  
           </div>
          
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              rowGap: "10px",
-            }}
-          >
-            <label htmlFor="machinas">Mashina rasmlarini yuklang</label>
-            <Input
-              style={{ padding: "5px 10px" }}
-              required
-              multiple
-              onChange={(e) => setImagesCar(e.target.files[0])}
-              type="file"
-            />
-          </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              rowGap: "10px",
-            }}
-          >
-            <label htmlFor="asosi">Asosi rasmni yuklang</label>
-            <Input
-              style={{ padding: "5px 10px" }}
-              multiple
-              onChange={(e) => setImages(e.target.files)}
-              type="file"
-            />
-          </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              rowGap: "10px",
-            }}
-          >
-            <label htmlFor="asosi">Asosi rasmni yuklang</label>
-            <Input
-              style={{ padding: "5px 10px" }}
-              onChange={(e) => setCover(e.target.files[0])}
-              type="file"
-            />
-          </div>
           <Stack>
             <span>Inclusive</span>
             <Switch
@@ -140,14 +82,13 @@ const EditCars = (props) => {
 
         <Button
           isLoading={isLoadingCreateCars}
-          loadingText="Yaratish"
+          loadingText="Almashyapt"
           type="submit"
           mt={5}
           colorScheme="teal"
           variant="outline"
         >
-          <IoIosAdd size={32} />{" "}
-          <span style={{ fontSize: "20px" }}>Yaratish</span>
+          <span style={{ fontSize: "20px" }}>Almashtrish</span>
         </Button>
       </form>
     </div>

@@ -1,5 +1,6 @@
 import {
   Select,
+  Spinner,
   Table,
   TableCaption,
   TableContainer,
@@ -61,10 +62,7 @@ const TableCars = () => {
           </Thead>
           <Tbody>
             {isLoading ? (
-              <span className="lds-ripple">
-                <span></span>
-                <span></span>
-              </span>
+              <Spinner pos={"relative"} top={5} bottom={5} left={"25%"} color='red.500' />
             ) : (
               cars?.data?.map((car, ind) => {
                 return (
