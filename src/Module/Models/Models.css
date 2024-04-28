@@ -1,24 +1,3 @@
-.models__section {
-  min-height: 100vh;
-  justify-content: end;
-  padding: 100px 20px 50px 20px;
-}
-.create__models__box,
-.models__table__box {
-  padding: 25px;
-  border-radius: 5px;
-  background-color: #fff;
-  box-shadow: 0.5px 0.5px 5px 0.5px #6363634b;
-}
-.create__models__box h2 {
-  margin-bottom: 20px;
-}
-.inputs__grid {
-  display: grid;
-  gap: 15px 25px;
-  grid-template-rows: 1fr auto;
-  grid-template-columns: 40% auto;
-}
 label {
   font-size: 17px;
   margin-top: 8px;
@@ -46,22 +25,6 @@ select {
   margin: 10px 0 0 0;
   border-radius: 5px;
 }
-button.submit__btn {
-  width: 100px;
-  border: none;
-  font-size: 15px;
-  color: white;
-  cursor: pointer;
-  font-weight: 500;
-  padding: 10px 18px;
-  border-radius: 5px;
-  transition: all 0.2s;
-  background-color: #4747ff;
-}
-button.submit__btn:hover,
-button.edit__btn:hover {
-  background-color: #2c2cce !important;
-}
 .models__table__box {
   margin-top: 40px;
 }
@@ -70,8 +33,10 @@ button.edit__btn:hover {
 }
 .models__table tr {
   display: grid;
-  border: 1px solid #f1f1f1;
-  grid-template-columns: 70px 1fr 1fr 220px;
+  grid-template-columns: 70px 1fr 1fr 200px;
+}
+tr {
+  border: 1px solid #f1f1f1 !important;
 }
 .models__table td, th {
   text-align: start !important;
@@ -82,16 +47,6 @@ button.edit__btn:hover {
   padding: 10px;
   transition: all 0.2s;
 }
-.models__table thead,
-button.edit__btn {
-  background-color: #4747ff !important;
-}
-.models__table button.delete__btn {
-  background-color: #d80c0c !important;
-}
-.models__table button.delete__btn:hover {
-  background-color: #a10808 !important;
-}
 .bg {
   top: 50%;
   left: 50%;
@@ -100,15 +55,6 @@ button.edit__btn {
   position: fixed;
   z-index: 10000 !important;
   background-color: #0000003a;
-  transform: translate(-50%, -50%);
-}
-#edit-model-box {
-  top: 50%;
-  left: 55%;
-  width: 60%;
-  position: fixed;
-  background-color: #fff;
-  z-index: 15000 !important;
   transform: translate(-50%, -50%);
 }
 .removeEditModelBtn {
