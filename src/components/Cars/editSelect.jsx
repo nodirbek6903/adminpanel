@@ -37,7 +37,8 @@ const EditSelect = () => {
   return (
     <div className="create-body-cars">
       {categoryLoading ? (
-        <Skeleton />
+                   <Skeleton height="40px" mt={35} rounded={8} />
+
       ) : (
         <div
           style={{ display: "flex", flexDirection: "column", rowGap: "10px" }}
@@ -61,7 +62,8 @@ const EditSelect = () => {
         </div>
       )}
       {isLoading ? (
-        <Skeleton />
+                   <Skeleton height="40px" mt={35} rounded={8} />
+
       ) : (
         <div
           style={{ display: "flex", flexDirection: "column", rowGap: "10px" }}
@@ -81,7 +83,8 @@ const EditSelect = () => {
       )}
 
       {modelLoading ? (
-        <Skeleton />
+                   <Skeleton height="40px" mt={35} rounded={8} />
+
       ) : (
         <div
           style={{ display: "flex", flexDirection: "column", rowGap: "10px" }}
@@ -100,7 +103,8 @@ const EditSelect = () => {
         </div>
       )}
       {locationsLoading ? (
-        <Skeleton />
+                   <Skeleton height="40px" mt={35} rounded={8} />
+
       ) : (
         <div
           style={{ display: "flex", flexDirection: "column", rowGap: "10px" }}
@@ -125,7 +129,8 @@ const EditSelect = () => {
       )}
 
       {citiesLoading ? (
-        <Skeleton />
+                   <Skeleton height="40px" mt={35} rounded={8} />
+
       ) : (
         <div
           style={{ display: "flex", flexDirection: "column", rowGap: "10px" }}
