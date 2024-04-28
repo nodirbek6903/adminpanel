@@ -1,5 +1,4 @@
 .brand {
-  margin-left: 60px;
   margin-top: 140px;
   margin-right: 50px;
   background-color: #fff;
@@ -30,6 +29,7 @@
   border: none;
   width: 100%;
   padding: 10px;
+  background: none;
 }
 
 .brand-btn {

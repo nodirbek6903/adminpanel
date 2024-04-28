@@ -6,13 +6,10 @@ import AuthCheck from "./utils/AuthChek";
 import ProtectedRoute from "./utils/ProtectedRoute";
 import Settings from "./Module/Settings/Settings";
 import Cities from "./Module/Cities/Cities";
-<<<<<<< HEAD
 import Brands from "./Module/Brands/Brands";
-=======
 import Models from "./Module/Models/Models";
 import { NotFoundError } from "./components/NotFound/NotFound";
 import Locations from './Module/Locations/Locations';
->>>>>>> 15dfef5e0bec16753f85d024f06535cdc36994ab
 
 const router = createBrowserRouter([
   {
@@ -32,17 +29,10 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-<<<<<<< HEAD
-        index: true,
-        element: <Dashboard />,
-      },
-      {
         path: "brands",
         element: <Brands />,
       },
       {
-=======
->>>>>>> 15dfef5e0bec16753f85d024f06535cdc36994ab
         path: "cars",
         element: <Cars />,
       },
@@ -62,13 +52,10 @@ const router = createBrowserRouter([
         path: "cities",
         element: <Cities />,
       },
-<<<<<<< HEAD
-=======
       {
         path: "locations",
         element: <Locations />
       }
->>>>>>> 15dfef5e0bec16753f85d024f06535cdc36994ab
     ],
   },
   {
