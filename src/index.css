@@ -6,8 +6,6 @@
   box-sizing: border-box;
   font-family: 'Roboto';
 }
-
-
 .loader-container {
   position: fixed;
   top: 0;
