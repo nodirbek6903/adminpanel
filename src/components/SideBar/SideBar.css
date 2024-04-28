@@ -20,6 +20,7 @@
     align-items: center;
     align-content: flex-start;
     box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
+    z-index: 999;
 }
 .admin{
     display: flex;
@@ -56,9 +57,17 @@
     width: 100%;
     padding: 10px 20px;
     text-decoration: none;
+    color: #000;
 }
 .sidebar-item:hover{
     background-color: #b0aaaa;
+}
+.sidebar-item.active{
+    background-color: blue;
+    color: #fff;
+}
+.sidebar-item.active .sidebar-icon{
+    color: #fff;
 }
 .sidebar-item h4{
     font-size: 1.2rem;

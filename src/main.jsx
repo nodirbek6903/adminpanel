@@ -9,7 +9,6 @@ import "./index.css";
 import store from "./store/store.js";
 import { ChakraProvider } from '@chakra-ui/react'
 
-
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -17,7 +16,6 @@ const queryClient = new QueryClient({
     },
   },
 });
-
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
