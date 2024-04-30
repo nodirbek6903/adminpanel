@@ -46,18 +46,18 @@ const TableCars = () => {
 
   return (
     <>
-      <TableContainer>
+      <TableContainer style={{marginTop:"30px"}}>
         <Table variant="simple">
           <TableCaption>Imperial to metric conversion factors</TableCaption>
           <Thead>
             <Tr>
-              <Th>№</Th>
-              <Th>Rang</Th>
-              <Th>Brand</Th>
-              <Th>Model</Th>
-              <Th>Categoriya</Th>
-              <Th>Lokatsiya</Th>
-              <Th>Action</Th>
+              <Th style={{color:"#fff"}}>№</Th>
+              <Th style={{color:"#fff"}}>Rang</Th>
+              <Th style={{color:"#fff"}}>Brand</Th>
+              <Th style={{color:"#fff"}}>Model</Th>
+              <Th style={{color:"#fff"}}>Categoriya</Th>
+              <Th style={{color:"#fff"}}>Lokatsiya</Th>
+              <Th style={{color:"#fff"}}>Action</Th>
             </Tr>
           </Thead>
           <Tbody>

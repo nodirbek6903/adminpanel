@@ -8,7 +8,7 @@ const Cars = () => {
   const dispatch = useDispatch();
 
   return (
-    <div style={{position:"relative"}}>
+    <div style={{position:"relative"}} className="cars-btns">
       <Button
             colorScheme="teal" variant="outline"
         onClick={() => dispatch(actionCars("create"))}
